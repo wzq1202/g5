@@ -21,8 +21,8 @@ public class SupplierServiceImpl implements ISupplierService {
     public PageList<Supplier> getAll(PageBean<Supplier> pageBean) {
         PageList<Supplier> pageList = new PageList<>();
         List<Supplier> list = supplierDao.getAll(pageBean);
-        pageList.setROOT(list);
-        pageList.setTOTALCOUNT(supplierDao.getAllCount(pageBean));
+        pageList.setRoot(list);
+        pageList.setTotalCount(supplierDao.getAllCount(pageBean));
         return pageList;
     }
 }

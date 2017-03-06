@@ -8,32 +8,30 @@ import java.util.List;
  * Created by qiang on 2017/3/6.
  */
 public class PageList<T> {
-    @JSONField(name = "TOTALCOUNT")
-    private Integer TOTALCOUNT;
-    @JSONField(name = "ROOT")
-    private List<T> ROOT;
+    private Integer totalCount;
+    private List<T> root;
 
-    public Integer getTOTALCOUNT() {
-        return TOTALCOUNT;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public void setTOTALCOUNT(Integer TOTALCOUNT) {
-        this.TOTALCOUNT = TOTALCOUNT;
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
     }
 
-    public List<T> getROOT() {
-        return ROOT;
+    public List<T> getRoot() {
+        return root;
     }
 
-    public void setROOT(List<T> ROOT) {
-        this.ROOT = ROOT;
+    public void setRoot(List<T> root) {
+        this.root = root;
     }
 
     @Override
     public String toString() {
         return "PageList{" +
-                "TOTALCOUNT=" + TOTALCOUNT +
-                ", ROOT=" + ROOT +
+                "totalCount=" + totalCount +
+                ", root=" + root +
                 '}';
     }
 }

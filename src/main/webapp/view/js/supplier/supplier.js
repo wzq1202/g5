@@ -14,7 +14,7 @@ Ext.onReady(function () {
             url: _ctxpath + '/api/supplier/getAll'
         }),
         reader: new Ext.data.JsonReader({
-            totalProperty: 'totalcount',
+            totalProperty: 'totalCount',
             root: 'root'
         }, [{
             name: 'supplierId'
@@ -58,7 +58,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "名称",
                     align: 'left',
-                    name: 'question',
+                    name: 'where.supplierName',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -66,7 +66,24 @@ Ext.onReady(function () {
                 layout: 'form',
                 width: 200,
                 height: 30,
-                items: []
+                items: [{
+                    fieldLabel: "手机号",
+                    align: 'left',
+                    name: 'where.tel',
+                    xtype: "textfield",
+                    width: 120
+                }]
+            }, {
+                layout: 'form',
+                width: 200,
+                height: 30,
+                items: [{
+                    fieldLabel: "联系人",
+                    align: 'left',
+                    name: 'where.contacts',
+                    xtype: "textfield",
+                    width: 120
+                }]
             }, {
                 xtype: "button",
                 text: '查询',
