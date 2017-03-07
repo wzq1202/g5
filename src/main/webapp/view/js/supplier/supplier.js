@@ -58,7 +58,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "名称",
                     align: 'left',
-                    name: 'where.supplierName',
+                    name: 'supplierName',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -69,7 +69,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "手机号",
                     align: 'left',
-                    name: 'where.tel',
+                    name: 'tel',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -80,7 +80,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "联系人",
                     align: 'left',
-                    name: 'where.contacts',
+                    name: 'contacts',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -156,8 +156,9 @@ Ext.onReady(function () {
             text: '添加供货商',
             iconCls: 'page_addIcon',
             handler: function () {
-                new QuestionForm({
-                    title: '新增试题', callback: function () {
+                new SupplierForm({
+                    id : '',
+                    title: '新增供货商', callback: function () {
                         gridPanel.getStore().reload();
                     }
                 }).show();
@@ -173,8 +174,8 @@ Ext.onReady(function () {
                     return;
                 }
 
-                new QuestionForm({
-                    id: rec.data.id, flag: 'edit', title: '编辑试题', callback: function () {
+                new SupplierForm({
+                    id: rec.data.supplierId, flag: 'edit', title: '编辑供货商', callback: function () {
                         gridPanel.getStore().reload();
                     }
                 }).show();
@@ -190,7 +191,7 @@ Ext.onReady(function () {
                     return;
                 }
 
-                del(rec.data.id);
+                del(rec.data.supplierId);
             }
         }, '-', {
             text: '刷新',
@@ -230,10 +231,10 @@ Ext.onReady(function () {
             fn: function (btnId, text, opt) {
                 if (btnId == 'ok') {
                     Ext.Ajax.request({
-                        url: _ctxpath + '/question/delete.do',
+                        url: _ctxpath + '/supplier/del.do',
                         method: 'GET',
                         params: {
-                            id: id
+                            supplierId: id
                         },
                         success: function (response, options) {
                             var result = Ext.decode(response.responseText);

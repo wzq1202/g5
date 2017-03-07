@@ -25,4 +25,27 @@ public class SupplierServiceImpl implements ISupplierService {
         pageList.setTotalCount(supplierDao.getAllCount(pageBean));
         return pageList;
     }
+
+    @Override
+    public Supplier get(Integer supplierId) {
+        return supplierDao.get(supplierId);
+    }
+
+    @Override
+    public boolean save(Supplier supplier) {
+        Integer res = 0;
+        if (supplier.getSupplierId() != null && supplier.getSupplierId() > 0) {
+            res = supplierDao.edit(supplier);
+        } else {
+            res = supplierDao.add(supplier);
+        }
+        return (res != null && res > 0) ? true : false;
+    }
+
+    @Override
+    public boolean del(Integer supplierId) {
+        Integer res = supplierDao.del(supplierId);
+
+        return res > 0 ? true : false;
+    }
 }

@@ -2,45 +2,84 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <!-- 参数管理手工映射SQL语句 -->
 <sqlMap namespace="Supplier">
-	<resultMap id="supplierMap" class="com.bit.model.Supplier">
-		<result property="supplierId" column="supplier_id" javaType="java.lang.Integer"/>
-		<result property="supplierName" column="supplier_name" javaType="java.lang.String"/>
-		<result property="addr" column="addr" javaType="java.lang.String"/>
-		<result property="tel" column="tel" javaType="java.lang.Long"/>
-		<result property="email" column="email" javaType="java.lang.String"/>
-		<result property="qq" column="qq" javaType="java.lang.String"/>
-		<result property="contacts" column="contacts" javaType="java.lang.String"/>
-	</resultMap>
-	<select id="getAll" resultMap="supplierMap" parameterClass="com.bit.model.Supplier">
-		select t.* from t_supplier t
-		where 1 = 1
-		<isNotEmpty property="supplierName" prepend="and">
-			supplier_name like '%#supplierName#%'
-		</isNotEmpty>
-		<isNotEmpty property="tel" prepend="and">
-			tel = #tel#
-		</isNotEmpty>
-		<isNotEmpty property="contacts" prepend="and">
-			contacts like '%#constacts#%'
-		</isNotEmpty>
-	</select>
-	<select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Supplier">
-		select count(t.supplier_id) from t_supplier t
-		where 1 = 1
-		<isNotEmpty property="supplierName" prepend="and">
-			supplier_name like '%#supplierName#%'
-		</isNotEmpty>
-		<isNotEmpty property="tel" prepend="and">
-			tel = #tel#
-		</isNotEmpty>
-		<isNotEmpty property="contacts" prepend="and">
-			contacts like '%#constacts#%'
-		</isNotEmpty>
-	</select>
-	<insert id="add" parameterClass="com.bit.model.Supplier">
+    <resultMap id="supplierMap" class="com.bit.model.Supplier">
+        <result property="supplierId" column="supplier_id" javaType="java.lang.Integer"/>
+        <result property="supplierName" column="supplier_name" javaType="java.lang.String"/>
+        <result property="addr" column="addr" javaType="java.lang.String"/>
+        <result property="tel" column="tel" javaType="java.lang.Long"/>
+        <result property="email" column="email" javaType="java.lang.String"/>
+        <result property="qq" column="qq" javaType="java.lang.String"/>
+        <result property="contacts" column="contacts" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="supplierMap" parameterClass="com.bit.model.Supplier">
+        select t.* from t_supplier t
+        where 1 = 1
+        <isNotEmpty property="supplierName" prepend="and">
+            supplier_name like '%$supplierName$%'
+        </isNotEmpty>
+        <isNotEmpty property="tel" prepend="and">
+            tel = #tel#
+        </isNotEmpty>
+        <isNotEmpty property="contacts" prepend="and">
+            contacts like '%$contacts$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Supplier">
+        select count(t.supplier_id) from t_supplier t
+        where 1 = 1
+        <isNotEmpty property="supplierName" prepend="and">
+            supplier_name like '%$supplierName$%'
+        </isNotEmpty>
+        <isNotEmpty property="tel" prepend="and">
+            tel = #tel#
+        </isNotEmpty>
+        <isNotEmpty property="contacts" prepend="and">
+            contacts like '%$contacts$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="supplierMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_supplier t WHERE t.supplier_Id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Supplier">
 		INSERT
-			t_supplier (supplier_name,addr,tel,email,qq)
+			t_supplier (supplier_name,addr,tel,email,qq,contacts)
 		VALUES
-			(#supplierName#,#addr#,#tel#,#email#,#qq#)
+			(#supplierName#,#addr#,#tel#,#email#,#qq#,#contacts#)
+
+        <selectKey resultClass="int" keyProperty="supplierId">
+            SELECT max(supplier_id) FROM t_supplier
+        </selectKey>
 	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Supplier">
+        UPDATE t_supplier
+        <dynamic prepend="set">
+            <isNotEmpty property="supplierName" prepend=",">
+                supplier_name = #supplierName#
+            </isNotEmpty>
+            <isNotEmpty property="addr" prepend=",">
+                addr = #addr#
+            </isNotEmpty>
+            <isNotEmpty property="tel" prepend=",">
+                tel = #tel#
+            </isNotEmpty>
+            <isNotEmpty property="email" prepend=",">
+                email = #email#
+            </isNotEmpty>
+            <isNotEmpty property="qq" prepend=",">
+                qq = #qq#
+            </isNotEmpty>
+            <isNotEmpty property="contacts" prepend=",">
+                contacts = #contacts#
+            </isNotEmpty>
+        </dynamic>
+        WHERE supplier_id = #supplierId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_supplier WHERE supplier_id = #value#
+    </delete>
 </sqlMap>

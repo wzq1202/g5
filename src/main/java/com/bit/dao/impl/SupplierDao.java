@@ -27,4 +27,24 @@ public class SupplierDao implements ISupplierDao{
         Integer count = (Integer)dao.getSqlMapClientTpl().queryForObject("Supplier.getAllCount",pageBean.getWhere());
         return count;
     }
+
+    @Override
+    public Supplier get(Integer supplierId) {
+        return (Supplier) dao.getSqlMapClientTpl().queryForObject("Supplier.get",supplierId);
+    }
+
+    @Override
+    public Integer add(Supplier supplier) {
+        return (Integer)dao.getSqlMapClientTpl().insert("Supplier.add",supplier);
+    }
+
+    @Override
+    public Integer del(Integer supplierId) {
+        return dao.getSqlMapClientTpl().delete("Supplier.del",supplierId);
+    }
+
+    @Override
+    public Integer edit(Supplier supplier) {
+        return dao.getSqlMapClientTpl().update("Supplier.edit",supplier);
+    }
 }
