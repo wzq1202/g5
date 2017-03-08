@@ -19,4 +19,6 @@
 
 	<!--业务开始-->
 	<sqlMap resource="sqlmap/Supplier.xml" />
+	<sqlMap resource="sqlmap/Attr.xml" />
+	<sqlMap resource="sqlmap/Type.xml" />
 </sqlMapConfig>
