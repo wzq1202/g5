@@ -21,4 +21,6 @@
 	<sqlMap resource="sqlmap/Supplier.xml" />
 	<sqlMap resource="sqlmap/Attr.xml" />
 	<sqlMap resource="sqlmap/Type.xml" />
+	<sqlMap resource="sqlmap/Goods.xml" />
+	<sqlMap resource="sqlmap/GoodsAttr.xml" />
 </sqlMapConfig>

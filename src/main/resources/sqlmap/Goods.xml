@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Goods">
+    <resultMap id="goodsMap" class="com.bit.model.Goods">
+        <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
+        <result property="serialNumber" column="serial_number" javaType="java.lang.String"/>
+        <result property="barCode" column="bar_code" javaType="java.lang.String"/>
+        <result property="goodsName" column="goods_name" javaType="java.lang.String"/>
+        <result property="brand" column="brand" javaType="java.lang.String"/>
+        <result property="oriArea" column="ori_area" javaType="java.lang.String"/>
+        <result property="inPrice" column="in_price" javaType="java.math.BigDecimal"/>
+        <result property="outPrice" column="out_price" javaType="java.math.BigDecimal"/>
+        <result property="supplierId" column="supplier_id" javaType="java.lang.Integer"/>
+        <result property="supplier" column="supplier_id" select="Supplier.get"/>
+        <result property="createTime" column="create_time" javaType="java.util.Date"/>
+        <result property="typeId" column="type_id" jdbcType="java.lang.Integer"/>
+        <result property="type" column="type_id" select="Type.get"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="goodsMap" parameterClass="com.bit.model.Goods">
+        select t.* from t_goods t
+        where 1 = 1
+        <isNotEmpty property="goodsName" prepend="and">
+            goods_name like '%$goodsName$%'
+        </isNotEmpty>
+        <isNotEmpty property="brand" prepend="and">
+            brand like '%$brand$%'
+        </isNotEmpty>
+        <isNotEmpty property="serialNumber" prepend="and">
+                serial_number = #serialNumber#
+        </isNotEmpty>
+        <isNotEmpty property="supplierId" prepend="and">
+            supplier_id = #supplierId#
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Goods">
+        select count(t.goods_id) from t_goods t
+        where 1 = 1
+        <isNotEmpty property="goodsName" prepend="and">
+            goods_name like '%$goodsName$%'
+        </isNotEmpty>
+        <isNotEmpty property="brand" prepend="and">
+            brand like '%$brand$%'
+        </isNotEmpty>
+        <isNotEmpty property="serialNumber" prepend="and">
+            serial_number = #serialNumber#
+        </isNotEmpty>
+        <isNotEmpty property="supplierId" prepend="and">
+            supplier_id = #supplierId#
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="goodsMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_goods t WHERE t.goods_Id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Goods">
+		INSERT
+			t_goods (serial_number,bar_code,goods_name,brand,ori_area,in_price,out_price,supplier_id,create_time,type_id)
+		VALUES
+			(#serialNumber#,#barCode#,#goodsName#,#brand#,#oriArea#,#inPrice#,#outPrice#,#supplierId#,#createTime#,#typeId#)
+
+        <selectKey resultClass="int" keyProperty="goodsId">
+            SELECT max(goods_Id) FROM t_goods
+        </selectKey>
+	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Goods">
+        UPDATE t_supplier
+        <dynamic prepend="set">
+            <isNotEmpty property="serialNumber" prepend=",">
+                serial_number = #serialNumber#
+            </isNotEmpty>
+            <isNotEmpty property="barCode" prepend=",">
+                bar_code = #barCode#
+            </isNotEmpty>
+            <isNotEmpty property="goodsName" prepend=",">
+                goods_name = #goodsName#
+            </isNotEmpty>
+            <isNotEmpty property="brand" prepend=",">
+                brand = #brand#
+            </isNotEmpty>
+            <isNotEmpty property="oriArea" prepend=",">
+                ori_area = #oriArea#
+            </isNotEmpty>
+            <isNotEmpty property="inPrice" prepend=",">
+                in_price = #inPrice#
+            </isNotEmpty>
+            <isNotEmpty property="outPrice" prepend=",">
+                out_price = #outPrice#
+            </isNotEmpty>
+            <isNotEmpty property="supplierId" prepend=",">
+                supplier_id = #supplierId#
+            </isNotEmpty>
+            <isNotEmpty property="createTime" prepend=",">
+                create_time = #createTime#
+            </isNotEmpty>
+            <isNotEmpty property="typeId" prepend=",">
+                type_id = #typeId#
+            </isNotEmpty>
+        </dynamic>
+        WHERE goods_id = #goodsId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_goods WHERE goods_id = #value#
+    </delete>
+</sqlMap>

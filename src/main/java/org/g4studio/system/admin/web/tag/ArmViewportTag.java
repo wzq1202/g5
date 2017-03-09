@@ -34,7 +34,7 @@ import org.g4studio.system.common.util.SystemConstants;
  * @author XiongChun
  * @since 2010-01-22
  */
-public class ArmViewportTag extends TagSupport {
+public class ArmViewportTag extends	TagSupport {
 
 	private static Log log = LogFactory.getLog(ArmViewportTag.class);
 
