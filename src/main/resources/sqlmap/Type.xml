@@ -23,6 +23,10 @@
         </isNotEmpty>
     </select>
 
+    <select id="getList" resultMap="typeMap">
+        select t.* from t_type t
+    </select>
+
     <select id="get" resultMap="typeMap" parameterClass="java.lang.Integer">
         SELECT t.* FROM t_type t WHERE t.type_id = #value#
     </select>

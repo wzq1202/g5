@@ -48,4 +48,9 @@ public class TypeServiceImpl implements ITypeService {
 
         return res > 0 ? true : false;
     }
+
+    @Override
+    public List<Type> getList() {
+        return typeDao.getList();
+    }
 }

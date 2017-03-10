@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by qiang on 2017/3/5.
  */
@@ -50,5 +53,21 @@ public class TypeController {
     public Response del(Integer typeId) {
         boolean flag = typeService.del(typeId);
         return new Response(flag,"删除成功","删除失败");
+    }
+    @RequestMapping("/getList")
+    public String[][] getList(){
+        List<Type> typeList = typeService.getList();
+        int size = typeList != null ? typeList.size() : 0;
+        String[][] res = new String[size][2];
+        if (typeList != null) {
+            for (int i = 0 ; i < typeList.size(); i++ ) {
+                Type type = typeList.get(i);
+                String[] item = new String[2];
+                item[0] = type.getTypeId().toString();
+                item[1] = type.getTypeName();
+                res[i] = item;
+            }
+        }
+        return res;
     }
 }

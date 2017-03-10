@@ -5,6 +5,8 @@ import com.bit.model.PageBean;
 import com.bit.model.PageList;
 import com.bit.model.Type;
 
+import java.util.List;
+
 /**
  * Created by qiang on 2017/3/5.
  */
@@ -16,5 +18,7 @@ public interface ITypeService {
     boolean save(Type type);
 
     boolean del(Integer typeId);
+
+    List<Type> getList();
 
 }

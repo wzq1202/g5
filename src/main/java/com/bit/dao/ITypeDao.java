@@ -22,4 +22,6 @@ public interface ITypeDao {
     Integer del(Integer typeId);
 
     Integer edit(Type type);
+
+    List<Type> getList();
 }

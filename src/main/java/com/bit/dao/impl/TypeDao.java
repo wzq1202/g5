@@ -50,4 +50,9 @@ public class TypeDao implements ITypeDao{
     public Integer edit(Type type) {
         return dao.getSqlMapClientTpl().update("Type.edit",type);
     }
+
+    @Override
+    public List<Type> getList() {
+        return dao.getSqlMapClientTpl().queryForList("Type.getList");
+    }
 }

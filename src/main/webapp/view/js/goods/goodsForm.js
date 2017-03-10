@@ -1,4 +1,4 @@
-Ext.ns('AttrForm');
+Ext.ns('GoodsForm');
 /**
  * @author
  * @createtime
@@ -6,18 +6,18 @@ Ext.ns('AttrForm');
  * @extends Ext.Window
  * @description StudentForm表单
  */
-AttrForm = Ext.extend(Ext.Window, {
+GoodsForm = Ext.extend(Ext.Window, {
     formPanel: null,
     // 构造函数
     constructor: function (_cfg) {
         // 必须先初始化组件
         this.initUIComponents(_cfg);
-        AttrForm.superclass.constructor.call(
+        GoodsForm.superclass.constructor.call(
             this,
             {
-                id: 'AttrFormWin',
-                width: 300,
-                height: 150,
+                id: 'GoodsFormWin',
+                width: 400,
+                height: 400,
                 layout: 'fit',
                 autoScroll: true,
                 resizable: false,
@@ -98,7 +98,7 @@ AttrForm = Ext.extend(Ext.Window, {
                                             buttons: Ext.MessageBox.OK
                                         });
                                         if (result.success) {
-                                            Ext.getCmp('AttrFormWin').close();
+                                            Ext.getCmp('GoodsFormWin').close();
                                             if (_cfg.callback != null) {
                                                 _cfg.callback.call(this);
                                             }
@@ -147,7 +147,7 @@ AttrForm = Ext.extend(Ext.Window, {
                         text: '关闭',
                         iconCls: 'deleteIcon',
                         handler: function () {
-                            Ext.getCmp('AttrFormWin').close();
+                            Ext.getCmp('GoodsFormWin').close();
                         }
                     }]
             });
@@ -155,9 +155,8 @@ AttrForm = Ext.extend(Ext.Window, {
     // end of the constructor
     // 初始化组件
     initUIComponents: function (obj) {
-
         formPanel = new Ext.form.FormPanel({
-            id: 'AttrFormPanel',
+            id: 'GoodsFormPanel',
             width: 450,
             layout: "form",
             labelAlign: 'right',
@@ -166,20 +165,76 @@ AttrForm = Ext.extend(Ext.Window, {
             labelWidth: 80,
             items: [{
                 xtype: 'hidden',
-                id: 'attrId',
-                name: 'attrId',
+                id: 'goodsId',
+                name: 'goodsId',
                 value: obj.id
             },{
                 xtype: 'textfield',
-                id: 'attrName',
-                name: 'attrName',
-                fieldLabel: '属性名称',
+                id: 'serialNumber',
+                name: 'serialNumber',
+                fieldLabel: '商品编号',
                 allowBlank: false
             },{
                 xtype: 'textfield',
-                id: 'attrValue',
-                name: 'attrValue',
-                fieldLabel: '属性值',
+                id: 'barCode',
+                name: 'barCode',
+                fieldLabel: '条形码',
+                allowBlank: false
+            },{
+                xtype: 'textfield',
+                id: 'goodsName',
+                name: 'goodsName',
+                fieldLabel: '商品名称',
+                allowBlank: false
+            },{
+                xtype: 'textfield',
+                id: 'brand',
+                name: 'brand',
+                fieldLabel: '品牌',
+                allowBlank: false
+            },{
+                xtype: 'textfield',
+                id: 'oriArea',
+                name: 'oriArea',
+                fieldLabel: '原产地',
+                allowBlank: false
+            },{
+                xtype: 'numberfield',
+                id: 'inPrice',
+                name: 'inPrice',
+                fieldLabel: '进价',
+                allowBlank: false
+            },{
+                xtype: 'numberfield',
+                id: 'outPrice',
+                name: 'outPrice',
+                fieldLabel: '售价',
+                allowBlank: false
+            },{
+                xtype : 'combo',
+                id : 'comb_typeId',
+                emptyText :'请选择类型',
+                name : 'type.typeId',
+                hiddenName : 'type.typeId',
+                fieldLabel : '类型',
+                triggerAction : 'all',
+                typeAhead : true,
+                lazyRender : true,
+                mode : 'remote',
+                value:'',
+                valueField : 'value',
+                displayField : 'text',
+                editable : false,
+                store : new Ext.data.ArrayStore({
+                    url : _ctxpath + '/api/type/getList.do',
+                    fields : [ 'value', 'text' ]
+                })
+
+            },{
+                xtype: 'textfield',
+                id: 'supplier.supplierId',
+                name: 'supplier.supplierId',
+                fieldLabel: '供应商',
                 allowBlank: false
             }]
         });

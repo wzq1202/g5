@@ -69,7 +69,7 @@ Ext.onReady(function () {
                     name: 'goodsName',
                     xtype: "textfield",
                     width: 120
-                },{
+                },/*{
                     fieldLabel: "商品编号",
                     align: 'left',
                     name: 'serialNumber',
@@ -96,10 +96,10 @@ Ext.onReady(function () {
                 },{
                     fieldLabel: "类型",
                     align: 'left',
-                    name: 'typeId',
+                    name: '',
                     xtype: "textfield",
                     width: 120
-                }]
+                }*/]
             },{
                 xtype: "button",
                 text: '查询',
@@ -202,7 +202,7 @@ Ext.onReady(function () {
             text: '添加商品',
             iconCls: 'page_addIcon',
             handler: function () {
-                new AttrForm({
+                new GoodsForm({
                     id : '',
                     title: '添加商品', callback: function () {
                         gridPanel.getStore().reload();
@@ -220,7 +220,7 @@ Ext.onReady(function () {
                     return;
                 }
 
-                new AttrForm({
+                new GoodsForm({
                     id: rec.data.goodsId, flag: 'edit', title: '编辑商品', callback: function () {
                         gridPanel.getStore().reload();
                     }
