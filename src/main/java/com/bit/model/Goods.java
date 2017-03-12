@@ -55,7 +55,16 @@ public class Goods {
      */
     private Integer typeId;
 
+    /**
+     * 类型
+     */
     private Type type;
+
+    private String userId;
+    /**
+     * 创建人
+     */
+    private UserExt userExt;
 
     public Integer getGoodsId() {
         return goodsId;
@@ -161,6 +170,22 @@ public class Goods {
         this.type = type;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public UserExt getUserExt() {
+        return userExt;
+    }
+
+    public void setUserExt(UserExt userExt) {
+        this.userExt = userExt;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -177,6 +202,8 @@ public class Goods {
                 ", createTime=" + createTime +
                 ", typeId=" + typeId +
                 ", type=" + type +
+                ", userId='" + userId + '\'' +
+                ", userExt=" + userExt +
                 '}';
     }
 }

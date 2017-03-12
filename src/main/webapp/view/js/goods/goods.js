@@ -69,7 +69,7 @@ Ext.onReady(function () {
                     name: 'goodsName',
                     xtype: "textfield",
                     width: 120
-                },/*{
+                },{
                     fieldLabel: "商品编号",
                     align: 'left',
                     name: 'serialNumber',
@@ -99,7 +99,7 @@ Ext.onReady(function () {
                     name: '',
                     xtype: "textfield",
                     width: 120
-                }*/]
+                }]
             },{
                 xtype: "button",
                 text: '查询',
@@ -280,7 +280,7 @@ Ext.onReady(function () {
                         url: _ctxpath + '/goods/del.do',
                         method: 'GET',
                         params: {
-                            attrId: id
+                            goodsId: id
                         },
                         success: function (response, options) {
                             var result = Ext.decode(response.responseText);

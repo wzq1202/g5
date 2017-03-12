@@ -44,6 +44,10 @@
         SELECT t.* FROM t_supplier t WHERE t.supplier_Id = #value#
     </select>
 
+    <select id="getList" resultMap="supplierMap">
+        SELECT t.* FROM t_supplier t
+    </select>
+
     <insert id="add" parameterClass="com.bit.model.Supplier">
 		INSERT
 			t_supplier (supplier_name,addr,tel,email,qq,contacts)

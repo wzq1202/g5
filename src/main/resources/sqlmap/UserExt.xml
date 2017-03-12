@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="UserExt">
+    <resultMap id="userExtMap" class="com.bit.model.UserExt">
+        <result property="userId" column="USERID" javaType="java.lang.String"/>
+        <result property="userName" column="USERNAME" javaType="java.lang.String"/>
+        <result property="account" column="ACCOUNT" javaType="java.lang.String"/>
+        <result property="password" column="PASSWORD" javaType="java.lang.String"/>
+        <result property="sex" column="SEX" javaType="java.lang.Integer"/>
+    </resultMap>
+    <select id="get" parameterClass="java.lang.String">
+        SELECT
+          t.USERID,t.USERNAME,t.ACCOUNT,t.PASSWORD,t.SEX
+        FROM eauser t
+        WHERE t.USERID = #value#
+    </select>
+</sqlMap>

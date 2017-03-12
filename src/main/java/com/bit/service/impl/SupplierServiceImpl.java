@@ -48,4 +48,9 @@ public class SupplierServiceImpl implements ISupplierService {
 
         return res > 0 ? true : false;
     }
+
+    @Override
+    public List<Supplier> getList() {
+        return supplierDao.getList();
+    }
 }

@@ -11,6 +11,7 @@ import com.bit.service.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,9 +38,10 @@ public class GoodsServiceImpl implements IGoodsService {
     @Override
     public boolean save(Goods goods) {
         Integer res = 0;
-        if (goods.getSupplierId() != null && goods.getGoodsId() > 0) {
+        if (goods.getGoodsId() != null && goods.getGoodsId() > 0) {
             res = goodsDao.edit(goods);
         } else {
+            goods.setCreateTime(new Date());
             res = goodsDao.add(goods);
         }
         return (res != null && res > 0) ? true : false;

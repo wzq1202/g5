@@ -4,6 +4,8 @@ import com.bit.model.PageBean;
 import com.bit.model.PageList;
 import com.bit.model.Supplier;
 
+import java.util.List;
+
 /**
  * Created by qiang on 2017/3/5.
  */
@@ -35,5 +37,7 @@ public interface ISupplierService {
      * @return
      */
     boolean del(Integer supplierId);
+
+    List<Supplier> getList();
 
 }

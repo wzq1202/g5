@@ -39,15 +39,24 @@ GoodsForm = Ext.extend(Ext.Window, {
                     'beforeshow': function (comp) {
                         if (_cfg.id != null && _cfg.id != '' && _cfg.id != 'undefined') {
                             formPanel.load({
-                                url: _ctxpath + '/api/attr/get',
+                                url: _ctxpath + '/api/goods/get',
                                 method: 'GET',
                                 params: {
-                                    attrId: _cfg.id
+                                    goodsId: _cfg.id
                                 },
                                 success: function (form, action) {
                                     var res = action.result;
-                                    Ext.getCmp('attrName').setValue(res.data.attrName);
-                                    Ext.getCmp('attrValue').setValue(res.data.attrValue);
+                                    Ext.getCmp('serialNumber').setValue(res.data.serialNumber);
+                                    Ext.getCmp('goodsName').setValue(res.data.goodsName);
+                                    Ext.getCmp('barCode').setValue(res.data.barCode);
+                                    Ext.getCmp('brand').setValue(res.data.brand);
+                                    Ext.getCmp('oriArea').setValue(res.data.oriArea);
+                                    Ext.getCmp('inPrice').setValue(res.data.inPrice);
+                                    Ext.getCmp('outPrice').setValue(res.data.outPrice);
+                                    Ext.getCmp('cbx_typeId').setValue(res.data.type.typeId);
+                                    Ext.getCmp('cbx_typeId').setRawValue(res.data.type.typeName);
+                                    Ext.getCmp('cbx_supplierId').setValue(res.data.supplier.supplierId);
+                                    Ext.getCmp('cbx_supplierId').setRawValue(res.data.supplier.supplierName);
                                 },
                                 failure: function (form, action) {
                                     switch (action.failureType) {
@@ -88,7 +97,7 @@ GoodsForm = Ext.extend(Ext.Window, {
                             var form = formPanel.getForm();
                             if (form.isValid()) {
                                 form.submit({
-                                    url: _ctxpath + '/attr/save.do',
+                                    url: _ctxpath + '/goods/save.do',
                                     success: function (form, action) {
                                         var result = action.result;
                                         Ext.Msg.show({
@@ -212,10 +221,9 @@ GoodsForm = Ext.extend(Ext.Window, {
                 allowBlank: false
             },{
                 xtype : 'combo',
-                id : 'comb_typeId',
+                id : 'cbx_typeId',
                 emptyText :'请选择类型',
-                name : 'type.typeId',
-                hiddenName : 'type.typeId',
+                hiddenName : 'typeId',
                 fieldLabel : '类型',
                 triggerAction : 'all',
                 typeAhead : true,
@@ -231,11 +239,24 @@ GoodsForm = Ext.extend(Ext.Window, {
                 })
 
             },{
-                xtype: 'textfield',
-                id: 'supplier.supplierId',
-                name: 'supplier.supplierId',
-                fieldLabel: '供应商',
-                allowBlank: false
+                xtype : 'combo',
+                id : 'cbx_supplierId',
+                emptyText :'请选择供应商',
+                hiddenName : 'supplierId',
+                fieldLabel : '供应商',
+                triggerAction : 'all',
+                typeAhead : true,
+                lazyRender : true,
+                mode : 'remote',
+                value:'',
+                valueField : 'value',
+                displayField : 'text',
+                editable : false,
+                store : new Ext.data.ArrayStore({
+                    url : _ctxpath + '/api/supplier/getList.do',
+                    fields : [ 'value', 'text' ]
+                })
+
             }]
         });
     }

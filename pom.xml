@@ -3,10 +3,10 @@
 	http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bit</groupId>
-	<artifactId>g5</artifactId>
+	<artifactId>supermarket</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>maveng4 Maven Webapp</name>
+	<name>supermarket</name>
 	<url>http://maven.apache.org</url>
 	<build>
 		<resources>

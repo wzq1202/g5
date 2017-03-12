@@ -36,4 +36,6 @@ public interface ISupplierDao {
      * @return
      */
     Integer edit(Supplier supplier);
+
+    List<Supplier> getList();
 }

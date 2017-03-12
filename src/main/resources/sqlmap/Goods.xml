@@ -16,6 +16,7 @@
         <result property="createTime" column="create_time" javaType="java.util.Date"/>
         <result property="typeId" column="type_id" jdbcType="java.lang.Integer"/>
         <result property="type" column="type_id" select="Type.get"/>
+        <result property="userExt" column="user_id" select="UserExt.get"/>
     </resultMap>
 
     <select id="getAll" resultMap="goodsMap" parameterClass="com.bit.model.Goods">
@@ -53,22 +54,22 @@
     </select>
 
     <select id="get" resultMap="goodsMap" parameterClass="java.lang.Integer">
-        SELECT t.* FROM t_goods t WHERE t.goods_Id = #value#
+        SELECT t.* FROM t_goods t WHERE t.goods_id = #value#
     </select>
 
     <insert id="add" parameterClass="com.bit.model.Goods">
 		INSERT
-			t_goods (serial_number,bar_code,goods_name,brand,ori_area,in_price,out_price,supplier_id,create_time,type_id)
+			t_goods (serial_number,bar_code,goods_name,brand,ori_area,in_price,out_price,supplier_id,create_time,type_id,user_id)
 		VALUES
-			(#serialNumber#,#barCode#,#goodsName#,#brand#,#oriArea#,#inPrice#,#outPrice#,#supplierId#,#createTime#,#typeId#)
+			(#serialNumber#,#barCode#,#goodsName#,#brand#,#oriArea#,#inPrice#,#outPrice#,#supplierId#,#createTime#,#typeId#，#userId#)
 
         <selectKey resultClass="int" keyProperty="goodsId">
-            SELECT max(goods_Id) FROM t_goods
+            SELECT max(goods_id) FROM t_goods
         </selectKey>
 	</insert>
 
     <update id="edit" parameterClass="com.bit.model.Goods">
-        UPDATE t_supplier
+        UPDATE t_goods
         <dynamic prepend="set">
             <isNotEmpty property="serialNumber" prepend=",">
                 serial_number = #serialNumber#

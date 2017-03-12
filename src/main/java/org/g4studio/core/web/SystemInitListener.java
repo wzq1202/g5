@@ -54,16 +54,13 @@ public class SystemInitListener extends ContextLoader implements ServletContextL
 		long start = System.currentTimeMillis();
 		if (forceLoad.equalsIgnoreCase(SystemConstants.FORCELOAD_N)) {
 			log.info("*******************************************************");
-			log.info("G4系统集成与应用开发平台[G4Studio]开始启动...");
+			log.info("超市管理系统开始启动...");
 			log.info("*******************************************************");
 		}
 		try {
 			String configLocationParam = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
 			log.info("加载配置文件[" + configLocationParam + "]");
 			wac = SpringBeanLoader.initApplicationContext(this , servletContext);
-			for(String s : wac.getBeanDefinitionNames()){
-				System.out.println("name:" + s);
-			}
 		} catch (Exception e) {
 			success = false;
 			e.printStackTrace();
@@ -110,10 +107,10 @@ public class SystemInitListener extends ContextLoader implements ServletContextL
 		long timeSec = (System.currentTimeMillis() - start) / 1000;
 		log.info("********************************************");
 		if (success) {
-			log.info("G4系统集成与应用开发平台[G4Studio]启动成功[" + G4Utils.getCurrentTime() + "]");
+			log.info("超市管理系统启动成功[" + G4Utils.getCurrentTime() + "]");
 			log.info("启动总耗时: " + timeSec / 60 + "分 " + timeSec % 60 + "秒 ");
 		} else {
-			log.error("G4系统集成与应用开发平台[G4Studio]启动失败[" + G4Utils.getCurrentTime() + "]");
+			log.error("超市管理系统启动失败[" + G4Utils.getCurrentTime() + "]");
 			log.error("启动总耗时: " + timeSec / 60 + "分" + timeSec % 60 + "秒");
 		}
 		log.info("********************************************");
@@ -142,7 +139,7 @@ public class SystemInitListener extends ContextLoader implements ServletContextL
 			System.setProperty("g4Dao.db", "sqlserver");
 		} else {
 			if (log.isErrorEnabled()) {
-				log.error(G4Constants.Exception_Head + "G4Studio平台目前还不支持你使用的数据库产品.如需获得支持,请和我们联系!");
+				log.error(G4Constants.Exception_Head + "平台目前还不支持你使用的数据库产品.如需获得支持,请和我们联系!");
 			}
 			System.exit(0);
 		}

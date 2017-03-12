@@ -47,4 +47,9 @@ public class SupplierDao implements ISupplierDao{
     public Integer edit(Supplier supplier) {
         return dao.getSqlMapClientTpl().update("Supplier.edit",supplier);
     }
+
+    @Override
+    public List<Supplier> getList() {
+        return dao.getSqlMapClientTpl().queryForList("Supplier.getList");
+    }
 }
