@@ -19,15 +19,14 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
-                    <exclude>profiles/*</exclude>
+                    <exclude>profiles/**</exclude>
                 </excludes>
-                <filtering>true</filtering>
+                <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/main/resources/profiles/${folder}/</directory>
+                <directory>src/main/resources/profiles/${active}</directory>
                 <filtering>true</filtering>
             </resource>
-
         </resources>
         <testResources>
             <testResource>
@@ -390,13 +389,13 @@
         <profile>
             <id>local</id>
             <properties>
-                <folder>local</folder>
+                <active>local</active>
             </properties>
         </profile>
         <profile>
             <id>company</id>
             <properties>
-                <folder>company</folder>
+                <active>company</active>
             </properties>
         </profile>
     </profiles>

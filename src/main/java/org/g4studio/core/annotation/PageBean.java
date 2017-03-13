@@ -8,6 +8,8 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface InnerType {
-    Class value();
+public @interface PageBean {
+    Class type();
+    String name();
+    String field();
 }

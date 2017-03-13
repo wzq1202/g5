@@ -1,8 +1,10 @@
 package com.bit.web;
 
 import com.bit.model.*;
+import com.bit.model.PageBean;
 import com.bit.service.IAttrService;
 import com.bit.service.ISupplierService;
+import org.g4studio.core.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +26,19 @@ public class AttrController {
     }
 
     @RequestMapping("/getAll")
+    public PageList<Attr> getAll(
+            @org.g4studio.core.annotation.PageBean(field = "where",type = Attr.class,name = "") PageBean<Attr> pageBean){
+        return attrService.getAll(pageBean);
+    }
+
+    /*@RequestMapping("/getAll")
     public PageList<Attr> getAll(Attr attr, int start, int limit){
         PageBean<Attr> pageBean = new PageBean<>();
         pageBean.setWhere(attr);
         pageBean.setStart(start);
         pageBean.setLimit(limit);
         return attrService.getAll(pageBean);
-    }
+    }*/
 
     @RequestMapping("/get")
     public Response<Attr> get(Integer attrId) {

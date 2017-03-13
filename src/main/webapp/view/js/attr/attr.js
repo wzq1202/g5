@@ -50,7 +50,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "名称",
                     align: 'left',
-                    name: 'attrName',
+                    name: 'where.attrName',
                     xtype: "textfield",
                     width: 120
                 }]
