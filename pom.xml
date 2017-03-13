@@ -18,13 +18,13 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
                 <excludes>
                     <exclude>profiles/*</exclude>
                 </excludes>
+                <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>src/main/resources/profiles/${jdbc.pro}/jdbc.properties</directory>
+                <directory>src/main/resources/profiles/${folder}/</directory>
                 <filtering>true</filtering>
             </resource>
 
