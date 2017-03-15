@@ -91,7 +91,7 @@ Ext.onReady(function () {
         viewConfig: {
             forceFit: true
         },
-        title: '<span style="font-weight:normal">供货商列表</span>',
+        title: '<span style="font-weight:normal">属性列表</span>',
         autoScroll: true,
         region: 'center',
         store: store,

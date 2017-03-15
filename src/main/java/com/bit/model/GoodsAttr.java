@@ -14,6 +14,10 @@ public class GoodsAttr {
      */
     private Integer attrId;
 
+    private Goods goods;
+
+    private Attr attr;
+
     public Integer getId() {
         return id;
     }
@@ -38,12 +42,30 @@ public class GoodsAttr {
         this.attrId = attrId;
     }
 
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public Attr getAttr() {
+        return attr;
+    }
+
+    public void setAttr(Attr attr) {
+        this.attr = attr;
+    }
+
     @Override
     public String toString() {
         return "GoodsAttr{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", attrId=" + attrId +
+                ", goods=" + goods +
+                ", attr=" + attr +
                 '}';
     }
 }

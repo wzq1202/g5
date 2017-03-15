@@ -10,6 +10,5 @@ import java.lang.annotation.*;
 @Target(ElementType.PARAMETER)
 public @interface PageBean {
     Class type();
-    String name();
     String field();
 }

@@ -4,6 +4,7 @@
 <G4Studio:import src="/view/js/G4.js"/>
 <G4Studio:import src="/view/js/goods/goods.js"/>
 <G4Studio:import src="/view/js/goods/goodsForm.js"/>
+<G4Studio:import src="/view/js/goods/goodsAttr.js"/>
 <G4Studio:body>
 <G4Studio:ext.uiGrant/>
 </G4Studio:body>

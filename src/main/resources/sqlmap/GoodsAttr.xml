@@ -4,8 +4,32 @@
 <sqlMap namespace="GoodsAttr">
     <resultMap id="goodsAttrMap" class="com.bit.model.GoodsAttr">
         <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
-        <result property="attrId" column="attr_id" javaType="java.lang.Integer"/>
+        <result property="attr" column="attr_id" select="Attr.get"/>
     </resultMap>
+
+    <select id="getAll" resultMap="goodsAttrMap" parameterClass="com.bit.model.GoodsAttr">
+        select * from t_goods_attr t
+        left join t_attr x on t.attr_id = x.attr_id
+        where 1 = 1
+        <isNotEmpty property="goodsId" prepend="and">
+            goods_id = ##
+        </isNotEmpty>
+        <isNotEmpty property="attr.attrName" prepend="and">
+            x.attr_name like '%$attr.attrName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.GoodsAttr">
+        select count(t.id) from t_goods_attr t
+        left join t_attr x on t.attr_id = x.attr_id
+        where 1 = 1
+        <isNotEmpty property="goodsId" prepend="and">
+            goods_id = ##
+        </isNotEmpty>
+        <isNotEmpty property="attr.attrName" prepend="and">
+            x.attr_name like '%$attr.attrName$%'
+        </isNotEmpty>
+    </select>
 
     <select id="get" resultMap="goodsAttrMap" parameterClass="java.lang.Integer">
         SELECT t.* FROM t_goods_attr t WHERE t.id = #value#

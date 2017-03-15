@@ -43,7 +43,7 @@ Ext.onReady(function () {
     });
 
     var searchPanel = new Ext.form.FormPanel({
-        width: 1000,
+        // width: 1000,
         autoHeight: true,
         layout: "form",
         labelWidth: 65,
@@ -58,9 +58,10 @@ Ext.onReady(function () {
             defaults: {
                 border: false
             },
+            padding : '10 0 0 2',
             items: [{
                 layout: 'form',
-                width: 200,
+                width: 180,
                 height: 30,
                 align: 'left',
                 items: [{
@@ -68,37 +69,81 @@ Ext.onReady(function () {
                     align: 'left',
                     name: 'goodsName',
                     xtype: "textfield",
-                    width: 120
-                },{
+                    width: 100
+                }]
+            },{
+                layout: 'form',
+                width: 180,
+                height: 30,
+                align: 'left',
+                items: [{
                     fieldLabel: "商品编号",
                     align: 'left',
                     name: 'serialNumber',
                     xtype: "textfield",
-                    width: 120
-                },{
+                    width: 100
+                }]
+            },{
+                layout: 'form',
+                width: 180,
+                height: 30,
+                align: 'left',
+                items: [{
                     fieldLabel: "品牌",
                     align: 'left',
                     name: 'brand',
                     xtype: "textfield",
-                    width: 120
-                },{
-                    fieldLabel: "商品名称",
-                    align: 'left',
-                    name: 'goodsName',
-                    xtype: "textfield",
-                    width: 120
-                },{
-                    fieldLabel: "供应商",
-                    align: 'left',
-                    name: 'supplierId',
-                    xtype: "textfield",
-                    width: 120
-                },{
-                    fieldLabel: "类型",
-                    align: 'left',
-                    name: '',
-                    xtype: "textfield",
-                    width: 120
+                    width: 100
+                }]
+            },{
+                layout: 'form',
+                width: 180,
+                height: 30,
+                align: 'left',
+                items: [{
+                    xtype : 'combo',
+                    width:100,
+                    emptyText :'请选择供应商',
+                    hiddenName : 'supplierId',
+                    fieldLabel : '供应商',
+                    triggerAction : 'all',
+                    typeAhead : true,
+                    lazyRender : true,
+                    mode : 'remote',
+                    value:'',
+                    valueField : 'value',
+                    displayField : 'text',
+                    editable : false,
+                    store : new Ext.data.ArrayStore({
+                        url : _ctxpath + '/api/supplier/getList.do',
+                        fields : [ 'value', 'text' ]
+                    })
+
+                }]
+            },{
+                layout: 'form',
+                width: 180,
+                height: 30,
+                align: 'left',
+                items: [{
+                    xtype : 'combo',
+                    width:100,
+                    emptyText :'请选择类型',
+                    hiddenName : 'typeId',
+                    fieldLabel : '类型',
+                    triggerAction : 'all',
+                    typeAhead : true,
+                    lazyRender : true,
+                    mode : 'remote',
+                    value:'',
+                    valueField : 'value',
+                    displayField : 'text',
+                    editable : false,
+                    store : new Ext.data.ArrayStore({
+                        url : _ctxpath + '/api/type/getList.do',
+                        fields : [ 'value', 'text' ]
+                    })
+
                 }]
             },{
                 xtype: "button",
@@ -108,7 +153,16 @@ Ext.onReady(function () {
                 handler: function () {
                     $search(searchPanel, gridPanel);
                 }
+            },{
+                xtype: "button",
+                width: 80,
+                text: '重置',
+                iconCls: 'tbar_synchronizeIcon',
+                handler: function () {
+                    searchPanel.getForm().reset();
+                }
             }]
+
         }]
     });
 
@@ -178,6 +232,13 @@ Ext.onReady(function () {
                 return d.format("Y-m-d H:i:s");
             }
         }
+    },{
+        header: '操作',
+        dataIndex: 'goodsId',
+        width: 60,
+        renderer:function(value) {
+            return '<a href="javascript:showAttr(\'' + value + '\');" style="text-decoration: none;">查看属性</a>';
+        }
     }]);
 
     var bbar = new G4.PagingBar({store: store});
@@ -239,7 +300,18 @@ Ext.onReady(function () {
 
                 del(rec.data.goodsId);
             }
-        }, '-', {
+        },'-',{
+            id: 'id_add_attr_btn',
+            text: '添加属性',
+            iconCls: 'id_add_btn',
+            handler: function () {
+                var rec = gridPanel.getSelectionModel().getSelected();
+                if (rec == null) {
+                    Ext.Msg.alert('提示:', '请先选中项目');
+                    return;
+                }
+            }
+        },'-', {
             text: '刷新',
             iconCls: 'arrow_refreshIcon',
             handler: function () {
@@ -302,5 +374,14 @@ Ext.onReady(function () {
             }
         });
     }
+    
+
 });
 
+function showAttr(goodsId) {
+    new GoodsAttr({
+        id: goodsId,title:'添加商品属性',callback: function () {
+            // gridPanel.getStore().reload();
+        }
+    }).show();
+}
