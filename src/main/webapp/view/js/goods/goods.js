@@ -115,7 +115,7 @@ Ext.onReady(function () {
                     displayField : 'text',
                     editable : false,
                     store : new Ext.data.ArrayStore({
-                        url : _ctxpath + '/api/supplier/getList.do',
+                        url : _ctxpath + '/api/supplier/getList',
                         fields : [ 'value', 'text' ]
                     })
 
@@ -140,7 +140,7 @@ Ext.onReady(function () {
                     displayField : 'text',
                     editable : false,
                     store : new Ext.data.ArrayStore({
-                        url : _ctxpath + '/api/type/getList.do',
+                        url : _ctxpath + '/api/type/getList',
                         fields : [ 'value', 'text' ]
                     })
 
@@ -303,13 +303,22 @@ Ext.onReady(function () {
         },'-',{
             id: 'id_add_attr_btn',
             text: '添加属性',
-            iconCls: 'id_add_btn',
+            iconCls: 'page_addIcon',
             handler: function () {
                 var rec = gridPanel.getSelectionModel().getSelected();
                 if (rec == null) {
                     Ext.Msg.alert('提示:', '请先选中项目');
                     return;
                 }
+
+                new GoodsAttrAdd({
+                    id: rec.data.goodsId,
+                    flag: 'edit',
+                    title: '添加商品属性',
+                    callback: function () {
+
+                    }
+                }).show();
             }
         },'-', {
             text: '刷新',
@@ -349,7 +358,7 @@ Ext.onReady(function () {
             fn: function (btnId, text, opt) {
                 if (btnId == 'ok') {
                     Ext.Ajax.request({
-                        url: _ctxpath + '/goods/del.do',
+                        url: _ctxpath + '/api/goods/del',
                         method: 'GET',
                         params: {
                             goodsId: id

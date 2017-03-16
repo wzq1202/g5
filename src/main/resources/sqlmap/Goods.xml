@@ -61,7 +61,7 @@
 		INSERT
 			t_goods (serial_number,bar_code,goods_name,brand,ori_area,in_price,out_price,supplier_id,create_time,type_id,user_id)
 		VALUES
-			(#serialNumber#,#barCode#,#goodsName#,#brand#,#oriArea#,#inPrice#,#outPrice#,#supplierId#,#createTime#,#typeId#，#userId#)
+			(#serialNumber#,#barCode#,#goodsName#,#brand#,#oriArea#,#inPrice#,#outPrice#,#supplierId#,#createTime#,#typeId#,#userId#)
 
         <selectKey resultClass="int" keyProperty="goodsId">
             SELECT max(goods_id) FROM t_goods

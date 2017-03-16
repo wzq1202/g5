@@ -18,6 +18,8 @@ public class GoodsAttr {
 
     private Attr attr;
 
+    private String userId;
+
     public Integer getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class GoodsAttr {
         this.attr = attr;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "GoodsAttr{" +
@@ -66,6 +76,7 @@ public class GoodsAttr {
                 ", attrId=" + attrId +
                 ", goods=" + goods +
                 ", attr=" + attr +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

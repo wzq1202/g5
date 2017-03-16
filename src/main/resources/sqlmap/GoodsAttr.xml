@@ -3,8 +3,10 @@
 <!-- 参数管理手工映射SQL语句 -->
 <sqlMap namespace="GoodsAttr">
     <resultMap id="goodsAttrMap" class="com.bit.model.GoodsAttr">
+        <result property="id" column="id" javaType="java.lang.Integer"/>
         <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
         <result property="attr" column="attr_id" select="Attr.get"/>
+        <result property="userId" column="user_id" javaType="java.lang.String"/>
     </resultMap>
 
     <select id="getAll" resultMap="goodsAttrMap" parameterClass="com.bit.model.GoodsAttr">
@@ -12,7 +14,7 @@
         left join t_attr x on t.attr_id = x.attr_id
         where 1 = 1
         <isNotEmpty property="goodsId" prepend="and">
-            goods_id = ##
+            goods_id = #goodsId#
         </isNotEmpty>
         <isNotEmpty property="attr.attrName" prepend="and">
             x.attr_name like '%$attr.attrName$%'
@@ -24,7 +26,7 @@
         left join t_attr x on t.attr_id = x.attr_id
         where 1 = 1
         <isNotEmpty property="goodsId" prepend="and">
-            goods_id = ##
+            goods_id = #goodsId#
         </isNotEmpty>
         <isNotEmpty property="attr.attrName" prepend="and">
             x.attr_name like '%$attr.attrName$%'
@@ -34,12 +36,16 @@
     <select id="get" resultMap="goodsAttrMap" parameterClass="java.lang.Integer">
         SELECT t.* FROM t_goods_attr t WHERE t.id = #value#
     </select>
+    <select id="getByGoodsAndAttr" resultMap="goodsAttrMap">
+        SELECT t.* FROM t_goods_attr t WHERE t.goods_Id = #goodsId# and t.attr_id = #attrId#
+    </select>
+
 
     <insert id="add" parameterClass="com.bit.model.GoodsAttr">
 		INSERT
-			t_goods_attr (goods_id,attr_id)
+			t_goods_attr (goods_id,attr_id,user_id)
 		VALUES
-			(#goodsId#,#attrId#)
+			(#goodsId#,#attrId#,#userId#)
 
         <selectKey resultClass="int" keyProperty="id">
             SELECT max(id) FROM t_goods_attr
@@ -49,11 +55,11 @@
     <insert id="addBatch" parameterClass="java.util.List">
         <![CDATA[
           INSERT
-            t_goods_attr (goods_id,attr_id) VALUES
+            t_goods_attr (goods_id,attr_id,user_id) VALUES
         ]]>
         <iterate conjunction =",">
             <![CDATA[
-              (#goodsAttrs[].goodsId#,#goodsAttrs[].attrId#)
+              (#goodsAttrs[].goodsId#,#goodsAttrs[].attrId#,#goodsAttrs[].userId#)
             ]]>
         </iterate>
     </insert>

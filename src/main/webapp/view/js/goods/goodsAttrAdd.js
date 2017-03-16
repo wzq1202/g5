@@ -47,7 +47,40 @@ GoodsAttrAdd = Ext.extend(Ext.Window, {
                         text: '保存',
                         iconCls: 'acceptIcon',
                         handler: function () {
+                            var recs = Ext.getCmp('goodsAttrAdd_gd').getSelectionModel().getSelections();
+                            if (recs.length <= 0) {
+                                Ext.Msg.alert('提示:', '请先选中项目');
+                                return;
+                            }
 
+                            var _arr = new Array();
+                            Ext.each(recs,function(item,idx,_self){
+                                _arr.push(item.data.attrId);
+                            });
+                            alert(Ext.util.JSON.encode(_arr));
+                            Ext.Ajax.request({
+                                url: _ctxpath + '/api/goodsAttr/save',
+                                method: 'GET',
+                                params: {
+                                    attrIds : _arr,
+                                    goodsId : _cfg.id
+                                },
+                                success: function (response, options) {
+                                    var result = Ext.decode(response.responseText);
+                                    Ext.Msg.show({
+                                        title: '提示信息',
+                                        msg: result.msg,
+                                        icon: Ext.MessageBox.INFO,
+                                        buttons: Ext.MessageBox.OK
+                                    });
+                                    if (result.success == true) {
+                                        gridPanel.getStore().reload();
+                                    }
+                                },
+                                failure: function (response, options) {
+
+                                }
+                            });
                         }
                     },{
                         text: '关闭',
@@ -129,7 +162,7 @@ GoodsAttrAdd = Ext.extend(Ext.Window, {
         });
 
         var sm = new Ext.grid.CheckboxSelectionModel({
-            singleSelect: true
+            singleSelect: false
         });
         var cm = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(), sm, {
             header: 'attrId',
@@ -150,6 +183,7 @@ GoodsAttrAdd = Ext.extend(Ext.Window, {
         var bbar = new G4.PagingBar({store: store});
 
         gridPanel = new Ext.grid.GridPanel({
+            id : 'goodsAttrAdd_gd',
             viewConfig: {
                 forceFit: true
             },

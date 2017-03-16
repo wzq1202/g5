@@ -21,4 +21,6 @@ public interface IGoodsAttrDao {
     Integer addBatch(List<GoodsAttr> goodsAttrs);
 
     Integer del(Integer id);
+
+    GoodsAttr getByGoodsAndAttr(Integer goodsId,Integer attrId);
 }

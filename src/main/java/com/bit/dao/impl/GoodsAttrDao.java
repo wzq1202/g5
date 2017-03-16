@@ -7,7 +7,9 @@ import org.g4studio.core.model.dao.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -48,4 +50,11 @@ public class GoodsAttrDao implements IGoodsAttrDao {
         return dao.getSqlMapClientTpl().delete("GoodsAttr.del",id);
     }
 
+    @Override
+    public GoodsAttr getByGoodsAndAttr(Integer goodsId, Integer attrId) {
+        Map<String,Integer> param = new HashMap<>();
+        param.put("goodsId",goodsId);
+        param.put("attrId",attrId);
+        return (GoodsAttr) dao.getSqlMapClientTpl().queryForObject("GoodsAttr.getByGoodsAndAttr",param);
+    }
 }

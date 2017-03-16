@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -35,17 +38,24 @@ public class GoodsAttrController extends BizAction{
 //        return new Response<Goods>(true,goodsAttr);
 //    }
 
-//    @RequestMapping("/save")
-//    public Response save(Goods goods, HttpServletRequest request) {
-//        String userId = super.getSessionContainer(request).getUserInfo().getUserid();
-//        goods.setUserId(userId);
-////        boolean flag = goodsAttrService.save(goods);
-//        return new Response(flag,"保存成功","保存失败");
-//    }
+    @RequestMapping("/save")
+    public Response save(Integer[] attrIds,Integer goodsId, HttpServletRequest request) {
+        String userId = super.getSessionContainer(request).getUserInfo().getUserid();
+        List<GoodsAttr> goodsAttrs = new ArrayList<>();
+        for (Integer str : attrIds) {
+            GoodsAttr goodsAttr = new GoodsAttr();
+            goodsAttr.setUserId(userId);
+            goodsAttr.setGoodsId(goodsId);
+            goodsAttr.setAttrId(str);
+            goodsAttrs.add(goodsAttr);
+        }
+        Integer res = goodsAttrService.saveBatch(goodsAttrs);
+        return new Response(res > 0 ? true : false,"保存成功","保存失败");
+    }
 
-//    @RequestMapping("/del")
-//    public Response del(Integer goodsAttrId) {
-//        boolean flag = goodsAttrService.del(goodsAttrId);
-//        return new Response(flag,"删除成功","删除失败");
-//    }
+    @RequestMapping("/del")
+    public Response del(Integer goodsAttrId) {
+        boolean flag = goodsAttrService.del(goodsAttrId);
+        return new Response(flag,"删除成功","删除失败");
+    }
 }

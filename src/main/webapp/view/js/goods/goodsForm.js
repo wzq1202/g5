@@ -97,7 +97,7 @@ GoodsForm = Ext.extend(Ext.Window, {
                             var form = formPanel.getForm();
                             if (form.isValid()) {
                                 form.submit({
-                                    url: _ctxpath + '/goods/save.do',
+                                    url: _ctxpath + '/api/goods/save',
                                     success: function (form, action) {
                                         var result = action.result;
                                         Ext.Msg.show({
@@ -234,7 +234,7 @@ GoodsForm = Ext.extend(Ext.Window, {
                 displayField : 'text',
                 editable : false,
                 store : new Ext.data.ArrayStore({
-                    url : _ctxpath + '/api/type/getList.do',
+                    url : _ctxpath + '/api/type/getList',
                     fields : [ 'value', 'text' ]
                 })
 
@@ -253,7 +253,7 @@ GoodsForm = Ext.extend(Ext.Window, {
                 displayField : 'text',
                 editable : false,
                 store : new Ext.data.ArrayStore({
-                    url : _ctxpath + '/api/supplier/getList.do',
+                    url : _ctxpath + '/api/supplier/getList',
                     fields : [ 'value', 'text' ]
                 })
 

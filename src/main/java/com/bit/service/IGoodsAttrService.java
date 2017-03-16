@@ -21,6 +21,8 @@ public interface IGoodsAttrService {
 
     Integer addBatch(List<GoodsAttr> goodsAttrs);
 
-    Integer del(Integer id);
+    boolean del(Integer id);
+
+    GoodsAttr getByGoodsAndAttr(Integer goodsId,Integer attrId);
 
 }

@@ -67,17 +67,19 @@ GoodsAttr = Ext.extend(Ext.Window, {
             },
 
             proxy: new Ext.data.HttpProxy({
-                url: _ctxpath + '/api/attr/getAll'
+                url: _ctxpath + '/api/goodsAttr/getAll?where.goodsId=' + obj.id
             }),
             reader: new Ext.data.JsonReader({
                 totalProperty: 'totalCount',
                 root: 'root'
             }, [{
-                name: 'attrId'
+                name: 'id'
+            },{
+                name: 'attr.attrId'
             }, {
-                name: 'attrName'
+                name: 'attr.attrName'
             }, {
-                name: 'attrValue'
+                name: 'attr.attrValue'
             }
             ])
         });
@@ -87,7 +89,6 @@ GoodsAttr = Ext.extend(Ext.Window, {
             autoHeight: true,
             layout: "form",
             labelWidth: 65,
-            padding: '5 0 0 0',
             labelAlign: "right",
             border: false,
             defaults: {
@@ -106,7 +107,7 @@ GoodsAttr = Ext.extend(Ext.Window, {
                     items: [{
                         fieldLabel: "名称",
                         align: 'left',
-                        name: 'where.attrName',
+                        name: 'attrName',
                         xtype: "textfield",
                         width: 120
                     }]
@@ -126,18 +127,22 @@ GoodsAttr = Ext.extend(Ext.Window, {
             singleSelect: true
         });
         var cm = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(), sm, {
-            header: 'attrId',
-            dataIndex: 'attrId',
+            header: 'id',
+            dataIndex: 'id',
+            hidden: true // 隐藏列
+        },{
+            header: 'attr.attrId',
+            dataIndex: 'attr.attrId',
             hidden: true // 隐藏列
         }, {
             header: '属性名称',
             sortable: true,
-            dataIndex: 'attrName',
+            dataIndex: 'attr.attrName',
             width: 80
         }, {
             header: '属性值',
             sortable: true,
-            dataIndex: 'attrValue',
+            dataIndex: 'attr.attrValue',
             width: 60
         }]);
 
@@ -169,7 +174,7 @@ GoodsAttr = Ext.extend(Ext.Window, {
                         return;
                     }
 
-                    del(rec.data.attrId);
+                    del(rec.data.id);
                 }
             }],
             bbar: bbar
@@ -188,10 +193,10 @@ function del(id) {
         fn: function (btnId, text, opt) {
             if (btnId == 'ok') {
                 Ext.Ajax.request({
-                    url: _ctxpath + '/attr/del.do',
+                    url: _ctxpath + '/api/goodsAttr/del',
                     method: 'GET',
                     params: {
-                        attrId: id
+                        goodsAttrId: id
                     },
                     success: function (response, options) {
                         var result = Ext.decode(response.responseText);

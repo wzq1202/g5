@@ -10,7 +10,10 @@ import com.bit.service.IGoodsAttrService;
 import com.bit.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,15 +44,22 @@ public class GoodsAttrServiceImpl implements IGoodsAttrService {
         return goodsAttrDao.add(goodsAttr);
     }
 
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     @Override
     public Integer saveBatch(List<GoodsAttr> goodsAttrs) {
-        int res = 0;
+        List<GoodsAttr> adds = new ArrayList<>();
         if (goodsAttrs != null) {
             for (GoodsAttr goodsAttr : goodsAttrs) {
-                //TODO
+                GoodsAttr o = goodsAttrDao.getByGoodsAndAttr(goodsAttr.getGoodsId(),goodsAttr.getAttrId());
+                if (o == null) {
+                    adds.add(goodsAttr);
+                }
+            }
+            if (adds.size() > 0) {
+                goodsAttrDao.addBatch(adds);
             }
         }
-        return res;
+        return adds.size();
     }
 
     @Override
@@ -58,7 +68,14 @@ public class GoodsAttrServiceImpl implements IGoodsAttrService {
     }
 
     @Override
-    public Integer del(Integer id) {
-        return goodsAttrDao.del(id);
+    public boolean del(Integer id) {
+        Integer res = goodsAttrDao.del(id);
+        return (res != null && res > 0) ? true : false;
+    }
+
+
+    @Override
+    public GoodsAttr getByGoodsAndAttr(Integer goodsId, Integer attrId) {
+        return goodsAttrDao.getByGoodsAndAttr(goodsId,attrId);
     }
 }
