@@ -67,7 +67,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "商品名称",
                     align: 'left',
-                    name: 'goodsName',
+                    name: 'where.goodsName',
                     xtype: "textfield",
                     width: 100
                 }]
@@ -79,7 +79,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "商品编号",
                     align: 'left',
-                    name: 'serialNumber',
+                    name: 'where.serialNumber',
                     xtype: "textfield",
                     width: 100
                 }]
@@ -91,7 +91,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "品牌",
                     align: 'left',
-                    name: 'brand',
+                    name: 'where.brand',
                     xtype: "textfield",
                     width: 100
                 }]
@@ -104,7 +104,7 @@ Ext.onReady(function () {
                     xtype : 'combo',
                     width:100,
                     emptyText :'请选择供应商',
-                    hiddenName : 'supplierId',
+                    hiddenName : 'where.supplierId',
                     fieldLabel : '供应商',
                     triggerAction : 'all',
                     typeAhead : true,
@@ -129,7 +129,7 @@ Ext.onReady(function () {
                     xtype : 'combo',
                     width:100,
                     emptyText :'请选择类型',
-                    hiddenName : 'typeId',
+                    hiddenName : 'where.typeId',
                     fieldLabel : '类型',
                     triggerAction : 'all',
                     typeAhead : true,

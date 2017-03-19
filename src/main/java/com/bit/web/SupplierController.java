@@ -2,6 +2,7 @@ package com.bit.web;
 
 import com.bit.model.*;
 import com.bit.service.ISupplierService;
+import org.g4studio.core.annotation.BindType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +26,7 @@ public class SupplierController {
     }
 
     @RequestMapping("/getAll")
-    public PageList<Supplier> getAll(Supplier supplier,int start,int limit){
-        PageBean<Supplier> pageBean = new PageBean<>();
-        pageBean.setWhere(supplier);
-        pageBean.setStart(start);
-        pageBean.setLimit(limit);
+    public PageList<Supplier> getAll(@BindType(type = Supplier.class,name = "where") PageBean<Supplier> pageBean){
         return supplierService.getAll(pageBean);
     }
 

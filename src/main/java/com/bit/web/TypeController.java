@@ -1,10 +1,8 @@
 package com.bit.web;
 
-import com.bit.model.PageBean;
-import com.bit.model.PageList;
-import com.bit.model.Response;
-import com.bit.model.Type;
+import com.bit.model.*;
 import com.bit.service.ITypeService;
+import org.g4studio.core.annotation.BindType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +27,7 @@ public class TypeController {
     }
 
     @RequestMapping("/getAll")
-    public PageList<Type> getAll(Type type, int start, int limit){
-        PageBean<Type> pageBean = new PageBean<>();
-        pageBean.setWhere(type);
-        pageBean.setStart(start);
-        pageBean.setLimit(limit);
+    public PageList<Type> getAll(@BindType(type = Type.class,name = "where") PageBean<Type> pageBean){
         return typeService.getAll(pageBean);
     }
 

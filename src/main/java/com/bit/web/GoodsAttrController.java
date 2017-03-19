@@ -1,19 +1,18 @@
 package com.bit.web;
 
-import com.bit.model.*;
+import com.bit.model.GoodsAttr;
 import com.bit.model.PageBean;
+import com.bit.model.PageList;
+import com.bit.model.Response;
 import com.bit.service.IGoodsAttrService;
-import com.bit.service.IGoodsService;
-import org.g4studio.core.annotation.*;
+import org.g4studio.core.annotation.BindType;
 import org.g4studio.core.web.BizAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class GoodsAttrController extends BizAction{
 
     @RequestMapping("/getAll")
     public PageList<GoodsAttr> getAll(
-            @org.g4studio.core.annotation.PageBean(type = GoodsAttr.class,field = "where")PageBean<GoodsAttr> pageBean){
+            @BindType(type = GoodsAttr.class,name = "where") PageBean<GoodsAttr> pageBean){
         PageList<GoodsAttr> pageList = goodsAttrService.getAll(pageBean);
         return pageList;
     }

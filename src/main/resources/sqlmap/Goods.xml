@@ -34,6 +34,9 @@
         <isNotEmpty property="supplierId" prepend="and">
             supplier_id = #supplierId#
         </isNotEmpty>
+        <isNotEmpty property="typeId" prepend="and">
+            type_id = #typeId#
+        </isNotEmpty>
     </select>
 
     <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Goods">
@@ -50,6 +53,9 @@
         </isNotEmpty>
         <isNotEmpty property="supplierId" prepend="and">
             supplier_id = #supplierId#
+        </isNotEmpty>
+        <isNotEmpty property="typeId" prepend="and">
+            type_id = #typeId#
         </isNotEmpty>
     </select>
 

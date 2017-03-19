@@ -27,7 +27,7 @@ public class AttrController {
 
     @RequestMapping("/getAll")
     public PageList<Attr> getAll(
-            @org.g4studio.core.annotation.PageBean(field = "where",type = Attr.class) PageBean<Attr> pageBean){
+            @org.g4studio.core.annotation.BindType(name = "where",type = Attr.class) PageBean<Attr> pageBean){
         return attrService.getAll(pageBean);
     }
 

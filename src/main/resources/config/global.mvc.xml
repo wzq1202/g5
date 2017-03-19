@@ -26,7 +26,7 @@
     <!-- 自定义参数绑定解析器 -->
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <bean class="org.g4studio.core.resolver.PageBeanArgumentResolver"></bean>
+            <bean class="org.g4studio.core.resolver.BindTypeArgumentResolver"></bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

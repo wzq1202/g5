@@ -107,7 +107,7 @@ GoodsAttr = Ext.extend(Ext.Window, {
                     items: [{
                         fieldLabel: "名称",
                         align: 'left',
-                        name: 'attrName',
+                        name: 'where.attr.attrName',
                         xtype: "textfield",
                         width: 120
                     }]

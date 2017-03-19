@@ -58,7 +58,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "名称",
                     align: 'left',
-                    name: 'supplierName',
+                    name: 'where.supplierName',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -69,7 +69,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "手机号",
                     align: 'left',
-                    name: 'tel',
+                    name: 'where.tel',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -80,7 +80,7 @@ Ext.onReady(function () {
                 items: [{
                     fieldLabel: "联系人",
                     align: 'left',
-                    name: 'contacts',
+                    name: 'where.contacts',
                     xtype: "textfield",
                     width: 120
                 }]
