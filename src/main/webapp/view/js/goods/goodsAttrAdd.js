@@ -57,7 +57,6 @@ GoodsAttrAdd = Ext.extend(Ext.Window, {
                             Ext.each(recs,function(item,idx,_self){
                                 _arr.push(item.data.attrId);
                             });
-                            alert(Ext.util.JSON.encode(_arr));
                             Ext.Ajax.request({
                                 url: _ctxpath + '/api/goodsAttr/save',
                                 method: 'GET',
@@ -67,15 +66,18 @@ GoodsAttrAdd = Ext.extend(Ext.Window, {
                                 },
                                 success: function (response, options) {
                                     var result = Ext.decode(response.responseText);
+                                    var icon = "";
+                                    if (result.success == true) {
+                                        icon = Ext.MessageBox.INFO;
+                                    } else {
+                                        icon = Ext.MessageBox.ERROR;
+                                    }
                                     Ext.Msg.show({
                                         title: '提示信息',
                                         msg: result.msg,
-                                        icon: Ext.MessageBox.INFO,
+                                        icon: icon,
                                         buttons: Ext.MessageBox.OK
                                     });
-                                    if (result.success == true) {
-                                        gridPanel.getStore().reload();
-                                    }
                                 },
                                 failure: function (response, options) {
 

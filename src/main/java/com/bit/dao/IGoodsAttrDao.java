@@ -23,4 +23,7 @@ public interface IGoodsAttrDao {
     Integer del(Integer id);
 
     GoodsAttr getByGoodsAndAttr(Integer goodsId,Integer attrId);
+
+    Integer delByGoodsId(Integer id);
+
 }

@@ -68,4 +68,7 @@
     <delete id="del" parameterClass="java.lang.Integer">
         DELETE FROM t_goods_attr WHERE id = #value#
     </delete>
+    <delete id="delByGoodsId" parameterClass="java.lang.Integer">
+        DELETE FROM t_goods_attr WHERE goods_id = #value#
+    </delete>
 </sqlMap>

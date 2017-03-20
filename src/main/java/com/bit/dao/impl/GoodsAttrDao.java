@@ -57,4 +57,9 @@ public class GoodsAttrDao implements IGoodsAttrDao {
         param.put("attrId",attrId);
         return (GoodsAttr) dao.getSqlMapClientTpl().queryForObject("GoodsAttr.getByGoodsAndAttr",param);
     }
+
+    @Override
+    public Integer delByGoodsId(Integer goodsId) {
+        return dao.getSqlMapClientTpl().delete("GoodsAttr.delByGoodsId",goodsId);
+    }
 }

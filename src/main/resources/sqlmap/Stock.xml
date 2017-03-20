@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Stock">
+    <resultMap id="stockMap" class="com.bit.model.Stock">
+        <result property="stockId" column="stock_id" javaType="java.lang.Integer"/>
+        <result property="goods" column="goods_id" javaType="java.lang.Integer" select="Goods.get"/>
+        <result property="amount" column="amount" javaType="java.lang.Integer"/>
+        <result property="warnAmount" column="warn_amount" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="stockMap" parameterClass="com.bit.model.Stock">
+        select t.* from t_stock t
+        left join t_goods a on t.goods_id = a.goods_id
+        where 1 = 1
+        <isNotEmpty property="goods.goodsName" prepend="and">
+            a.goods_name like '%$goods.goodsName$%'
+        </isNotEmpty>
+        <isNotEmpty property="goods.brand" prepend="and">
+            brand like '%$goods.brand$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Stock">
+        select t.* from t_stock t
+        left join t_goods a on t.goods_id = a.goods_id
+        where 1 = 1
+        <isNotEmpty property="goods.goodsName" prepend="and">
+            a.goods_name like '%$goods.goodsName$%'
+        </isNotEmpty>
+        <isNotEmpty property="goods.brand" prepend="and">
+            brand like '%$goods.brand$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="stockMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_stock t WHERE t.stock_id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Stock">
+		INSERT
+			t_stock (goods_id,amount,warn_amount)
+		VALUES
+			(#goodsId#,#amount#,#warnAmount#)
+
+        <selectKey resultClass="int" keyProperty="stockId">
+            SELECT max(goods_id) FROM t_stock
+        </selectKey>
+	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Stock">
+        UPDATE t_stock
+        <dynamic prepend="set">
+            <isNotEmpty property="goodsId" prepend=",">
+                goods_id = #goodsId#
+            </isNotEmpty>
+            <isNotEmpty property="amount" prepend=",">
+                amount = #amount#
+            </isNotEmpty>
+            <isNotEmpty property="warnAmount" prepend=",">
+                warn_amount = #warnAmount#
+            </isNotEmpty>
+        </dynamic>
+        WHERE stock_id = #stockId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_stock WHERE stock_id = #value#
+    </delete>
+    <delete id="delByGoodsId" parameterClass="java.lang.Integer">
+        DELETE FROM t_stock WHERE goods_id = #value#
+    </delete>
+</sqlMap>
