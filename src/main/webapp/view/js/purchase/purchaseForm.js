@@ -204,32 +204,13 @@ PurchaseForm = Ext.extend(Ext.Window, {
                     fieldLabel: '实付金额',
                     allowBlank: false
                 },
-                {
-                    xtype : 'combo',
-                    id : 'cbx_supplierId',
-                    emptyText :'请选择供应商',
-                    hiddenName : 'supplierId',
-                    fieldLabel : '供应商',
-                    triggerAction : 'all',
-                    typeAhead : true,
-                    lazyRender : true,
-                    mode : 'remote',
-                    value:'',
-                    valueField : 'value',
-                    displayField : 'text',
-                    editable : false,
-                    store : new Ext.data.ArrayStore({
-                        url : _ctxpath + '/api/supplier/getList',
-                        fields : [ 'value', 'text' ]
-                    })
 
-                },
                 {
                     xtype: 'textfield',
                     id: 'comment',
                     name: 'comment',
                     fieldLabel: '备注',
-                    allowBlank: false
+                    allowBlank: true
                 }]
         });
     }

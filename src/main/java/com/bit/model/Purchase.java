@@ -2,6 +2,7 @@ package com.bit.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by qiang on 2017/3/8.
@@ -14,12 +15,11 @@ public class Purchase {
     private BigDecimal actual;
     private String userId;
     private UserExt userExt;
-    private Integer supplierId;
-    private Supplier supplier;
     private Date createTime;
     private Date finishTime;
     private Integer status;
     private String comment;
+    private List<PurchaseGoods> purchaseGoods;
 
     public Integer getPurchaseId() {
         return purchaseId;
@@ -77,22 +77,6 @@ public class Purchase {
         this.userExt = userExt;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -125,6 +109,14 @@ public class Purchase {
         this.comment = comment;
     }
 
+    public List<PurchaseGoods> getPurchaseGoods() {
+        return purchaseGoods;
+    }
+
+    public void setPurchaseGoods(List<PurchaseGoods> purchaseGoods) {
+        this.purchaseGoods = purchaseGoods;
+    }
+
     @Override
     public String toString() {
         return "Purchase{" +
@@ -133,14 +125,13 @@ public class Purchase {
                 ", total=" + total +
                 ", payable=" + payable +
                 ", actual=" + actual +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", userExt=" + userExt +
-                ", supplierId=" + supplierId +
-                ", supplier=" + supplier +
                 ", createTime=" + createTime +
                 ", finishTime=" + finishTime +
                 ", status=" + status +
                 ", comment='" + comment + '\'' +
+                ", purchaseGoods=" + purchaseGoods +
                 '}';
     }
 }

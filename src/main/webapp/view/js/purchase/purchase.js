@@ -23,7 +23,6 @@ Ext.onReady(function () {
             {name:'payable'},
             {name:'actual'},
             {name:'userExt.userName'},
-            {name:'supplier.supplierName'},
             {name:'createTime'},
             {name:'finishTime'},
             {name:'status'},
@@ -110,12 +109,6 @@ Ext.onReady(function () {
                 dataIndex: 'userExt.userName',
                 width: 80
             },*/
-        {
-            header: '供货商',
-            sortable: true,
-            dataIndex: 'supplier.supplierName',
-            width: 80
-        },
         {
             header: '创建时间',
             sortable: true,
@@ -230,6 +223,22 @@ Ext.onReady(function () {
                 }
 
                 del(rec.data.purchaseId);
+            }
+        }, '-', {
+            id: 'id_add_goods_btn',
+            text: '添加商品',
+            iconCls: 'page_addIcon',
+            handler: function () {
+                var rec = gridPanel.getSelectionModel().getSelected();
+                if (rec == null) {
+                    Ext.Msg.alert('提示:', '请先选中项目');
+                    return;
+                }
+                new PurchaseGoodsAdd({
+                    id : rec.data.purchaseId,
+                    title : '添加商品',
+                    flag : 'add'
+                }).show();
             }
         }, '-', {
             text: '刷新',

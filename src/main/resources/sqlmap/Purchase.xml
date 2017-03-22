@@ -9,7 +9,6 @@
         <result property="payable" column="payable" javaType="java.math.BigDecimal"/>
         <result property="actual" column="actual" javaType="java.math.BigDecimal"/>
         <result property="userExt" column="user_id" select="UserExt.get"/>
-        <result property="supplier" column="supplier_id" select="Supplier.get"/>
         <result property="createTime" column="create_time" javaType="java.util.Date"/>
         <result property="finishTime" column="finish_time" javaType="java.util.Date"/>
         <result property="status" column="status" javaType="java.lang.Integer"/>
@@ -38,9 +37,9 @@
 
     <insert id="add" parameterClass="com.bit.model.Purchase">
 		INSERT
-			t_purchase (purchase_number,total,payable,actual,user_id,supplier_id,create_time,finish_time,status,comment)
+			t_purchase (purchase_number,total,payable,actual,user_id,create_time,finish_time,status,comment)
 		VALUES
-			(#purchaseNumber#,#total#,#payable#,#actual#,#userId#,#supplierId#,#createTime#,#finishTime#,#status#,#comment#)
+			(#purchaseNumber#,#total#,#payable#,#actual#,#userId#,#createTime#,#finishTime#,#status#,#comment#)
 
         <selectKey resultClass="java.lang.Integer" keyProperty="purchaseId">
             SELECT max(purchase_id) FROM t_purchase
@@ -64,9 +63,6 @@
             </isNotEmpty>
             <isNotEmpty property="userId" prepend=",">
                 user_id = #userId#
-            </isNotEmpty>
-            <isNotEmpty property="supplierId" prepend=",">
-                supplier_id = #supplierId#
             </isNotEmpty>
             <isNotEmpty property="finishTime" prepend=",">
                 finish_time = #finishTime#

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="PurchaseGoods">
+    <resultMap id="purchaseGoodsMap" class="com.bit.model.PurchaseGoods">
+        <result property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="purchaseId" column="purchase_id" javaType="java.lang.Integer"/>
+        <result property="purchase" column="purchase_id" select="Purchase.get"/>
+        <result property="amount" column="amount" javaType="java.lang.Integer"/>
+        <result property="price" column="price" javaType="java.math.BigDecimal"/>
+        <result property="goodsName" column="goods_name" javaType="java.lang.String"/>
+        <result property="brand" column="brand" javaType="java.lang.String"/>
+        <result property="oriArea" column="ori_area" javaType="java.lang.String"/>
+        <result property="supplierId" column="supplier_id" javaType="java.lang.Integer"/>
+        <result property="supplier" column="supplier_id" select="Supplier.get"/>
+        <result property="typeId" column="type_id" jdbcType="java.lang.Integer"/>
+        <result property="type" column="type_id" select="Type.get"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="purchaseGoodsMap" parameterClass="com.bit.model.PurchaseGoods">
+        select t.* from t_purchase_goods t
+        where 1 = 1
+        <isNotEmpty property="purchaseId" prepend="and">
+            purchase_id = #purchaseId#
+        </isNotEmpty>
+
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.PurchaseGoods">
+        select count(t.id) from t_purchase_goods t
+        where 1 = 1
+        <isNotEmpty property="purchaseId" prepend="and">
+            purchase_id = #purchaseId#
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="purchaseGoodsMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_purchase_goods t WHERE t.id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.PurchaseGoods">
+		INSERT
+			t_purchase_goods (purchase_id,goods_name,amount,price,supplier_id,brand,ori_area,type_id)
+		VALUES
+			(#purchaseId#,#goodsName#,#amount#,#price#,#supplierId#,#brand#,#oriArea#,#typeId#)
+
+        <selectKey resultClass="int" keyProperty="purchaseGoodsId">
+            SELECT max(id) FROM t_purchase_goods
+        </selectKey>
+	</insert>
+    <insert id="addBatch" parameterClass="java.util.List">
+        <![CDATA[
+          INSERT
+            t_purchase_goods (purchase_id,goods_name,amount,price,supplier_id,brand,ori_area,type_id) VALUES
+        ]]>
+        <iterate conjunction =",">
+            <![CDATA[
+              (#purchaseGoods[].purchaseId#,#purchaseGoods[].goodsName#,#purchaseGoods[].amount#,#purchaseGoods[].price#,#purchaseGoods[].supplierId#,#purchaseGoods[].brand#,#purchaseGoods[].oriArea#,#purchaseGoods[].typeId#)
+            ]]>
+        </iterate>
+    </insert>
+
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_purchase_goods WHERE id = #value#
+    </delete>
+    <delete id="delByPurchaseId" parameterClass="java.lang.Integer">
+        DELETE FROM t_purchase_goods WHERE purchase_id = #value#
+    </delete>
+</sqlMap>
