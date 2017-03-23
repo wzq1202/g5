@@ -47,22 +47,28 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                         text: '保存',
                         iconCls: 'acceptIcon',
                         handler: function () {
-                            var recs = Ext.getCmp('purchaseGoodsAdd_gd').getSelectionModel().getSelections();
-                            if (recs.length <= 0) {
-                                Ext.Msg.alert('提示:', '请先选中项目');
-                                return;
-                            }
-
                             var _arr = new Array();
-                            Ext.each(recs, function (item, idx, _self) {
-                                _arr.push(item.data.attrId);
+                            Ext.getCmp('purchaseGoodsAdd_gd').getStore().each(function (item) {
+                                var _obj = new Object();
+                                _obj.purchaseId = _cfg.id;
+                                _obj.goodsName = item.data.goodsName;
+                                _obj.brand = item.data.brand;
+                                _obj.oriArea = item.data.oriArea;
+                                _obj.supplierId = item.data.supplierId;
+                                _obj.typeId = item.data.typeId;
+                                _obj.amount = item.data.amount;
+                                _obj.price = item.data.price;
+                                _arr.push(_obj);
                             });
+                            alert(_cfg.id);
+                            alert(Ext.util.JSON.encode(_arr));
                             Ext.Ajax.request({
                                 url: _ctxpath + '/api/purchaseGoods/save',
-                                method: 'GET',
+                                method: 'POST',
                                 params: {
-                                    attrIds: _arr,
-                                    purchaseId: _cfg.id
+                                    'purchase.purchaseId':_cfg.id,
+                                    'purchase.purchaseGoods': _arr
+
                                 },
                                 success: function (response, options) {
                                     var result = Ext.decode(response.responseText);
@@ -118,7 +124,9 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                 {name: 'goodsName'},
                 {name: 'brand'},
                 {name: 'oriArea'},
+                {name: 'supplierId'},
                 {name: 'supplier.supplierName'},
+                {name: 'typeId'},
                 {name: 'type.typeName'},
                 {name: 'amount'},
                 {name: 'price'}
@@ -203,6 +211,10 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                     xtype: 'textfield',
                     allowBank: false
                 }
+            },{
+                header: 'supplierId',
+                dataIndex: 'supplierId',
+                hidden : true
             },
             {
                 header: '供应商名称',
@@ -214,7 +226,7 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                     xtype: 'combo',
                     width: 100,
                     emptyText: '请选择供应商',
-                    hiddenName: 'supplier.supplierName',
+                    hiddenName: 'supplier1',
                     fieldLabel: '供应商',
                     triggerAction: 'all',
                     typeAhead: true,
@@ -227,16 +239,22 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                     store: new Ext.data.ArrayStore({
                         url: _ctxpath + '/api/supplier/getList',
                         fields: ['value', 'text']
-                    }),
-                    // listeners :{
-                    //     select: function (combo,record,index ) {
-                    //         alert(this.getId());
-                    //         alert(this.ownerCt);
-                    //         alert(this.findParentByType('gridcolumn'));
-                    //         // alert(this.ownerCt.header);
-                    //     }
-                    // }
+                    })
+                },
+                renderer : function (value, metaData, record, rowIndex, colIndex, store) {
+                    var s = Ext.getCmp('cbx_supplier').getStore();
+                    var index = s.find('value',value);
+                    if (index != -1) {
+                        var rec = s.getAt(index);
+                        record.set('supplierId',value);
+                        return rec.data.text;
+                    }
+                    return value;
                 }
+            },{
+                header: 'typeId',
+                dataIndex: 'typeId',
+                hidden : true
             },
             {
                 header: '类型',
@@ -262,6 +280,16 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                         url: _ctxpath + '/api/type/getList',
                         fields: ['value', 'text']
                     })
+                },
+                renderer : function (value, metaData, record, rowIndex, colIndex, store) {
+                    var s = Ext.getCmp('cbx_type').getStore();
+                    var index = s.find('value',value);
+                    if (index != -1) {
+                        var rec = s.getAt(index);
+                        record.set('typeId',value);
+                        return rec.data.text;
+                    }
+                    return value;
                 }
             },
             {
@@ -320,10 +348,23 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                 text: '删除商品',
                 iconCls: 'page_delIcon',
                 handler: function () {
-
+                    var recs = Ext.getCmp('purchaseGoodsAdd_gd').getSelectionModel().getSelections();
+                    Ext.getCmp('purchaseGoodsAdd_gd').getStore().remove(recs);
                 }
             }],
-            bbar: bbar
+            bbar: bbar,
+            listeners : {
+                // beforeedit : function(e){
+                //     // alert(e.record);
+                // },
+                // afteredit : function(e){
+                //     // grid,record,field,value,originalValue,row,column
+                //     alert(e.field);
+                //     alert(e.value);
+                //     e.record.set('aaa');
+                //     // alert();
+                // }
+            }
         });
     }
 
