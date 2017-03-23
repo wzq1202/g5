@@ -60,30 +60,24 @@ PurchaseGoodsAdd = Ext.extend(Ext.Window, {
                                 _obj.price = item.data.price;
                                 _arr.push(_obj);
                             });
-                            alert(_cfg.id);
-                            alert(Ext.util.JSON.encode(_arr));
                             Ext.Ajax.request({
                                 url: _ctxpath + '/api/purchaseGoods/save',
-                                method: 'POST',
+                                method: 'GET',
                                 params: {
-                                    'purchase.purchaseId':_cfg.id,
-                                    'purchase.purchaseGoods': _arr
-
+                                    purchaseId: _cfg.id,
+                                    purchaseGoods:Ext.util.JSON.encode(_arr)
                                 },
                                 success: function (response, options) {
                                     var result = Ext.decode(response.responseText);
-                                    var icon = "";
-                                    if (result.success == true) {
-                                        icon = Ext.MessageBox.INFO;
-                                    } else {
-                                        icon = Ext.MessageBox.ERROR;
-                                    }
                                     Ext.Msg.show({
                                         title: '提示信息',
                                         msg: result.msg,
-                                        icon: icon,
+                                        icon: Ext.MessageBox.INFO,
                                         buttons: Ext.MessageBox.OK
                                     });
+                                    if (result.success == true) {
+                                        gridPanel.getStore().reload();
+                                    }
                                 },
                                 failure: function (response, options) {
 

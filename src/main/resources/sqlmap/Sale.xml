@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Sale">
+    <resultMap id="saleMap" class="com.bit.model.Sale">
+        <result property="saleId" column="sale_id" javaType="java.lang.Integer"/>
+        <result property="saleNumber" column="sale_number" javaType="java.lang.String"/>
+        <result property="total" column="total" javaType="java.math.BigDecimal"/>
+        <result property="payable" column="payable" javaType="java.math.BigDecimal"/>
+        <result property="actual" column="actual" javaType="java.math.BigDecimal"/>
+        <result property="userExt" column="user_id" select="UserExt.get"/>
+        <result property="createTime" column="create_time" javaType="java.util.Date"/>
+        <result property="comment" column="comment" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="saleMap" parameterClass="com.bit.model.Sale">
+        select t.* from t_sale t
+        where 1 = 1
+        <isNotEmpty property="saleNumber" prepend="and">
+            sale_number = #saleNumber#
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Sale">
+        select count(t.sale_id) from t_sale t
+        where 1 = 1
+        <isNotEmpty property="saleNumber" prepend="and">
+            sale_number = #saleNumber#
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="saleMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_sale t WHERE t.sale_id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Sale">
+		INSERT
+			t_sale (sale_number,total,payable,actual,user_id,create_time,comment)
+		VALUES
+			(#saleNumber#,#total#,#payable#,#actual#,#userId#,#createTime#,#comment#)
+
+        <selectKey resultClass="java.lang.Integer" keyProperty="saleId">
+            SELECT max(sale_id) FROM t_sale
+        </selectKey>
+	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Sale">
+        UPDATE t_sale
+        <dynamic prepend="set">
+            <isNotEmpty property="saleNumber" prepend=",">
+                sale_number = #saleNumber#
+            </isNotEmpty>
+            <isNotEmpty property="total" prepend=",">
+                total = #total#
+            </isNotEmpty>
+            <isNotEmpty property="payable" prepend=",">
+                payable = #payable#
+            </isNotEmpty>
+            <isNotEmpty property="actual" prepend=",">
+                actual = #actual#
+            </isNotEmpty>
+            <isNotEmpty property="userId" prepend=",">
+                user_id = #userId#
+            </isNotEmpty>
+            <isNotEmpty property="comment" prepend=",">
+                comment = #comment#
+            </isNotEmpty>
+
+        </dynamic>
+        WHERE sale_id = #saleId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_sale WHERE sale_id = #value#
+    </delete>
+</sqlMap>

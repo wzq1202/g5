@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="SaleGoods">
+    <resultMap id="saleGoodsMap" class="com.bit.model.SaleGoods">
+        <result property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
+        <result property="goods" column="goods_id" select="Goods.get"/>
+        <result property="saleId" column="sale_id" javaType="java.lang.Integer"/>
+        <result property="sale" column="sale_id" select="Sale.get"/>
+        <result property="amount" column="amount" javaType="java.lang.Integer"/>
+        <result property="outPrice" column="out_price" javaType="java.math.BigDecimal"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="saleGoodsMap" parameterClass="com.bit.model.SaleGoods">
+        select t.* from t_sale_goods t
+        where 1 = 1
+        <isNotEmpty property="saleId" prepend="and">
+            sale_id = #saleId#
+        </isNotEmpty>
+
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.SaleGoods">
+        select count(t.id) from t_sale_goods t
+        where 1 = 1
+        <isNotEmpty property="saleId" prepend="and">
+            sale_id = #saleId#
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="saleGoodsMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_sale_goods t WHERE t.id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.SaleGoods">
+		INSERT
+			t_sale_goods (sale_id,goods_id,amount,out_price)
+		VALUES
+			(#saleId#,#goodsId#,#amount#,#outPrice#)
+
+        <selectKey resultClass="int" keyProperty="saleGoodsId">
+            SELECT max(id) FROM t_sale_goods
+        </selectKey>
+	</insert>
+    <insert id="addBatch" parameterClass="java.util.List">
+        <![CDATA[
+          INSERT
+            t_sale_goods (sale_id,goods_id,amount,out_price) VALUES
+        ]]>
+        <iterate conjunction =",">
+            <![CDATA[
+              (#saleGoods[].saleId#,#saleGoods[].goodsId#,#saleGoods[].amount#,#saleGoods[].outPrice#)
+            ]]>
+        </iterate>
+    </insert>
+
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_sale_goods WHERE id = #value#
+    </delete>
+    <delete id="delBySaleId" parameterClass="java.lang.Integer">
+        DELETE FROM t_sale_goods WHERE sale_id = #value#
+    </delete>
+</sqlMap>

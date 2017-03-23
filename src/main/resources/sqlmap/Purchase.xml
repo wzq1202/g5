@@ -19,7 +19,7 @@
         select t.* from t_purchase t
         where 1 = 1
         <isNotEmpty property="purchaseNumber" prepend="and">
-            purchase_name = #purchaseNumber#
+            purchase_number = #purchaseNumber#
         </isNotEmpty>
     </select>
 
@@ -27,7 +27,7 @@
         select count(t.purchase_id) from t_purchase t
         where 1 = 1
         <isNotEmpty property="purchaseNumber" prepend="and">
-            purchase_name = #purchaseNumber#
+            purchase_number = #purchaseNumber#
         </isNotEmpty>
     </select>
 

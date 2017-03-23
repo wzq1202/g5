@@ -27,4 +27,6 @@
 	<sqlMap resource="sqlmap/Stock.xml" />
 	<sqlMap resource="sqlmap/Purchase.xml" />
 	<sqlMap resource="sqlmap/PurchaseGoods.xml" />
+	<sqlMap resource="sqlmap/Sale.xml" />
+	<sqlMap resource="sqlmap/SaleGoods.xml" />
 </sqlMapConfig>

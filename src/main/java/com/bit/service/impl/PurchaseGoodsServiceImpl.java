@@ -38,8 +38,10 @@ public class PurchaseGoodsServiceImpl implements IPurchaseGoodsService {
     @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public boolean save(Purchase purchase) {
         purchaseGoodsDao.delByPurchaseId(purchase.getPurchaseId());
-        Integer res = purchaseGoodsDao.addBatch(purchase.getPurchaseGoods());
-        return (res != null && res > 0) ? true : false;
+        if (purchase.getPurchaseGoods() != null && !purchase.getPurchaseGoods().isEmpty()) {
+            purchaseGoodsDao.addBatch(purchase.getPurchaseGoods());
+        }
+        return true;
     }
 
     @Override

@@ -11,21 +11,19 @@ Ext.onReady(function () {
         },
 
         proxy: new Ext.data.HttpProxy({
-            url: _ctxpath + '/api/purchase/getAll'
+            url: _ctxpath + '/api/sale/getAll'
         }),
         reader: new Ext.data.JsonReader({
             totalProperty: 'totalCount',
             root: 'root'
         }, [
-            {name:'purchaseId'},
-            {name:'purchaseNumber'},
+            {name:'saleId'},
+            {name:'saleNumber'},
             {name:'total'},
             {name:'payable'},
             {name:'actual'},
             {name:'userExt.userName'},
             {name:'createTime'},
-            {name:'finishTime'},
-            {name:'status'},
             {name:'comment'}
         ])
     });
@@ -52,9 +50,9 @@ Ext.onReady(function () {
                 height: 30,
                 align: 'left',
                 items: [{
-                    fieldLabel: "采购单编号",
+                    fieldLabel: "销售单编号",
                     align: 'left',
-                    name: 'where.purchaseNumber',
+                    name: 'where.saleNumber',
                     xtype: "textfield",
                     width: 120
                 }]
@@ -75,14 +73,14 @@ Ext.onReady(function () {
     });
     var cm = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(), sm,
         {
-            header: 'purchaseId',
-            dataIndex: 'purchaseId',
+            header: 'saleId',
+            dataIndex: 'saleId',
             hidden: true // 隐藏列
         },
         {
-            header: '采购单编号',
+            header: '销售单编号',
             sortable: true,
-            dataIndex: 'purchaseNumber',
+            dataIndex: 'saleNumber',
             width: 80
         },
         {
@@ -125,39 +123,6 @@ Ext.onReady(function () {
             }
         },
         {
-            header: '完成时间',
-            sortable: true,
-            dataIndex: 'finishTime',
-            width: 60,
-            renderer:function(value) {
-                if (value != null && value != '') {
-                    if (value instanceof Date) {
-                        return new Date(value);
-                    } else {
-                        var d = new Date();
-                        d.setTime(value);
-                        return d.format("Y-m-d H:i:s");
-                    }
-                }
-
-            }
-        },
-        {
-            header: '状态',
-            sortable: true,
-            dataIndex: 'status',
-            width: 80,
-            renderer:function(value) {
-                if (value == '1') {
-                    return '已确认';
-                } else if (value == '2') {
-                    return '已完成';
-                } else {
-                    return '等待确认';
-                }
-            }
-        },
-        {
             header: '备注',
             sortable: true,
             dataIndex: 'comment',
@@ -171,7 +136,7 @@ Ext.onReady(function () {
         viewConfig: {
             forceFit: true
         },
-        title: '<span style="font-weight:normal">采购单列表</span>',
+        title: '<span style="font-weight:normal">销售单列表</span>',
         autoScroll: true,
         region: 'center',
         store: store,
@@ -184,10 +149,10 @@ Ext.onReady(function () {
         sm: sm,
         tbar: [{
             id: 'id_add_btn',
-            text: '添加采购单',
+            text: '添加销售单',
             iconCls: 'page_addIcon',
             handler: function () {
-                new PurchaseForm({
+                new SaleForm({
                     id : '',
                     title: '新增商品属性', callback: function () {
                         gridPanel.getStore().reload();
@@ -196,7 +161,7 @@ Ext.onReady(function () {
             }
         }, '-', {
             id: 'id_update_btn',
-            text: '编辑采购单',
+            text: '编辑销售单',
             iconCls: 'page_edit_1Icon',
             handler: function () {
                 var rec = gridPanel.getSelectionModel().getSelected();
@@ -205,15 +170,15 @@ Ext.onReady(function () {
                     return;
                 }
 
-                new PurchaseForm({
-                    id: rec.data.purchaseId, flag: 'edit', title: '编辑采购单', callback: function () {
+                new SaleForm({
+                    id: rec.data.saleId, flag: 'edit', title: '编辑销售单', callback: function () {
                         gridPanel.getStore().reload();
                     }
                 }).show();
             }
         }, '-', {
             id: 'id_del_btn',
-            text: '删除采购单',
+            text: '删除销售单',
             iconCls: 'page_delIcon',
             handler: function () {
                 var rec = gridPanel.getSelectionModel().getSelected();
@@ -222,7 +187,7 @@ Ext.onReady(function () {
                     return;
                 }
 
-                del(rec.data.purchaseId);
+                del(rec.data.saleId);
             }
         }, '-', {
             id: 'id_add_goods_btn',
@@ -234,8 +199,8 @@ Ext.onReady(function () {
                     Ext.Msg.alert('提示:', '请先选中项目');
                     return;
                 }
-                new PurchaseGoodsAdd({
-                    id : rec.data.purchaseId,
+                new SaleGoodsAdd({
+                    id : rec.data.saleId,
                     title : '添加商品',
                     flag : 'add'
                 }).show();
@@ -278,10 +243,10 @@ Ext.onReady(function () {
             fn: function (btnId, text, opt) {
                 if (btnId == 'ok') {
                     Ext.Ajax.request({
-                        url: _ctxpath + '/purchase/del.do',
+                        url: _ctxpath + '/sale/del.do',
                         method: 'GET',
                         params: {
-                            purchaseId: id
+                            saleId: id
                         },
                         success: function (response, options) {
                             var result = Ext.decode(response.responseText);

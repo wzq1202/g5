@@ -1,12 +1,16 @@
 package com.bit.service.impl;
 
+import com.bit.enu.PurchaseEnum;
 import com.bit.dao.IPurchaseDao;
+import com.bit.dao.IPurchaseGoodsDao;
 import com.bit.model.Purchase;
 import com.bit.model.PageBean;
 import com.bit.model.PageList;
 import com.bit.service.IPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 public class PurchaseServiceImpl implements IPurchaseService {
     @Autowired
     private IPurchaseDao purchaseDao;
+    private IPurchaseGoodsDao purchaseGoodsDao;
     @Override
     public PageList<Purchase> getAll(PageBean<Purchase> pageBean) {
         PageList<Purchase> pageList = new PageList<>();
@@ -39,16 +44,17 @@ public class PurchaseServiceImpl implements IPurchaseService {
             res = purchaseDao.edit(purchase);
         } else {
             purchase.setCreateTime(new Date());
-            purchase.setStatus(0);
+            purchase.setStatus(PurchaseEnum.WAIT.getValue());
             res = purchaseDao.add(purchase);
         }
         return (res != null && res > 0) ? true : false;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public boolean del(Integer purchaseId) {
+        purchaseGoodsDao.delByPurchaseId(purchaseId);
         Integer res = purchaseDao.del(purchaseId);
-
         return res > 0 ? true : false;
     }
 }
