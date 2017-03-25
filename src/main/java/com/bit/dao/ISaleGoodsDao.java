@@ -16,6 +16,8 @@ public interface ISaleGoodsDao {
 
     SaleGoods get(Integer saleGoodsId);
 
+    List<SaleGoods> getBySaleId(Integer saleId);
+
     Integer add(SaleGoods saleGoods);
 
     Integer addBatch(List<SaleGoods> saleGoods);

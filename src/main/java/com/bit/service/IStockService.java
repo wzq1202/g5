@@ -1,5 +1,6 @@
 package com.bit.service;
 
+import com.bit.enu.StockLogEnum;
 import com.bit.model.PageBean;
 import com.bit.model.PageList;
 import com.bit.model.Stock;
@@ -12,8 +13,10 @@ public interface IStockService {
 
     Stock get(Integer stockId);
 
-    boolean save(Stock stock);
+    boolean save(Stock stock,String userId);
 
     boolean del(Integer stockId);
+
+    boolean doStock(Integer goodsId, Integer amount, String userId, StockLogEnum stockLogEnum);
 
 }

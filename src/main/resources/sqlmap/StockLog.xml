@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="StockLog">
+    <resultMap id="stockLogMap" class="com.bit.model.StockLog">
+        <result property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="stockId" column="stock_id" javaType="java.lang.Integer"/>
+        <result property="stock" column="stock_id" select="Stock.get"/>
+        <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
+        <result property="goods" column="goods_id" select="Goods.get"/>
+        <result property="amount" column="amount" javaType="java.lang.Integer"/>
+        <result property="createTime" column="create_time" javaType="java.util.Date"/>
+        <result property="userId" column="user_id" javaType="java.lang.String"/>
+        <result property="userExt" column="user_id" select="UserExt.get"/>
+        <result property="chgAmount" column="chg_amount" javaType="java.lang.Integer"/>
+        <result property="chgType" column="chg_type" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="stockLogMap" parameterClass="com.bit.model.StockLog">
+        select t.* from t_stock_log t
+        left join t_goods a on t.goods_id = a.goods_id
+        where 1 = 1
+        <isNotEmpty property="goods.goodsName" prepend="and">
+            a.goods_name like '%$goods.goodsName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.StockLog">
+        select count(t.id) from t_stock_log t
+        where 1 = 1
+    </select>
+
+    <select id="get" resultMap="stockLogMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_stock_log t WHERE t.id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.StockLog">
+		INSERT
+            t_stock_log (stock_id,goods_id,amount,create_time,user_id,chg_amount,chg_type)
+		VALUES
+			(#stockId#,#goodsId#,#amount#,#createTime#,#userId#,#chgAmount#,#chgType#)
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT max(id) FROM t_stock_log
+        </selectKey>
+	</insert>
+</sqlMap>

@@ -36,7 +36,7 @@ public class PurchaseGoodsController {
         purchase.setPurchaseId(purchaseId);
         if (org.apache.commons.lang.StringUtils.isNotEmpty(purchaseGoods)) {
             List<PurchaseGoods> list = JSONArray.parseArray(purchaseGoods,PurchaseGoods.class);
-            purchase.setPurchaseGoods(list);
+            purchase.setPurchaseGoodses(list);
         }
         boolean flag = purchaseGoodsService.save(purchase);
         return new Response(flag,"保存成功","保存失败");

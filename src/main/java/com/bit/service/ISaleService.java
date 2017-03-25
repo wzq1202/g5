@@ -14,6 +14,6 @@ public interface ISaleService {
 
     boolean save(Sale sale);
 
-    boolean del(Integer saleId);
+    boolean del(Integer saleId,String userId);
 
 }

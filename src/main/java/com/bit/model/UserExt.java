@@ -49,4 +49,15 @@ public class UserExt {
     public void setSex(Integer sex) {
         this.sex = sex;
     }
+
+    @Override
+    public String toString() {
+        return "UserExt{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", sex=" + sex +
+                '}';
+    }
 }

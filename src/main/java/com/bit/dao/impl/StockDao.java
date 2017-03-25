@@ -9,7 +9,9 @@ import org.g4studio.core.model.dao.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -37,6 +39,11 @@ public class StockDao implements IStockDao{
     }
 
     @Override
+    public Stock getByGoodsId(Integer goodsId) {
+        return (Stock) dao.getSqlMapClientTpl().queryForObject("Stock.getByGoodsId",goodsId);
+    }
+
+    @Override
     public Integer add(Stock stock) {
         return (Integer)dao.getSqlMapClientTpl().insert("Stock.add",stock);
     }
@@ -53,5 +60,13 @@ public class StockDao implements IStockDao{
     @Override
     public Integer edit(Stock stock) {
         return dao.getSqlMapClientTpl().update("Stock.edit",stock);
+    }
+
+    @Override
+    public Integer doStock(Integer goodsId, Integer amount) {
+        Map<String,Integer> param = new HashMap<>();
+        param.put("goodsId",goodsId);
+        param.put("amount",amount);
+        return dao.getSqlMapClientTpl().update("Stock.doStock",param);
     }
 }

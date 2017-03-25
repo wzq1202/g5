@@ -126,20 +126,8 @@ Ext.onReady(function () {
         sm: sm,
         tbar: [{
             id: 'id_add_btn',
-            text: '添加商品属性',
+            text: '修改库存',
             iconCls: 'page_addIcon',
-            handler: function () {
-                new AttrForm({
-                    id : '',
-                    title: '新增商品属性', callback: function () {
-                        gridPanel.getStore().reload();
-                    }
-                }).show();
-            }
-        }, '-', {
-            id: 'id_update_btn',
-            text: '编辑商品属性',
-            iconCls: 'page_edit_1Icon',
             handler: function () {
                 var rec = gridPanel.getSelectionModel().getSelected();
                 if (rec == null) {
@@ -147,26 +135,14 @@ Ext.onReady(function () {
                     return;
                 }
 
-                new AttrForm({
-                    id: rec.data.attrId, flag: 'edit', title: '编辑商品属性', callback: function () {
+                new StockForm({
+                    id : rec.data.stockId,
+                    title: '编辑库存', callback: function () {
                         gridPanel.getStore().reload();
                     }
                 }).show();
             }
-        }, '-', {
-            id: 'id_del_btn',
-            text: '删除商品属性',
-            iconCls: 'page_delIcon',
-            handler: function () {
-                var rec = gridPanel.getSelectionModel().getSelected();
-                if (rec == null) {
-                    Ext.Msg.alert('提示:', '请先选中项目');
-                    return;
-                }
-
-                del(rec.data.attrId);
-            }
-        }, '-', {
+        },'-', {
             text: '刷新',
             iconCls: 'arrow_refreshIcon',
             handler: function () {
@@ -194,40 +170,5 @@ Ext.onReady(function () {
             items: [searchPanel]
         }]
     });
-
-    function del(id) {
-        Ext.Msg.show({
-            title: '提示信息',
-            msg: '确定删除吗？',
-            icon: Ext.MessageBox.INFO,
-            buttons: Ext.MessageBox.OKCANCEL,
-            fn: function (btnId, text, opt) {
-                if (btnId == 'ok') {
-                    Ext.Ajax.request({
-                        url: _ctxpath + '/stock/del.do',
-                        method: 'GET',
-                        params: {
-                            attrId: id
-                        },
-                        success: function (response, options) {
-                            var result = Ext.decode(response.responseText);
-                            Ext.Msg.show({
-                                title: '提示信息',
-                                msg: result.msg,
-                                icon: Ext.MessageBox.INFO,
-                                buttons: Ext.MessageBox.OK
-                            });
-                            if (result.success == true) {
-                                gridPanel.getStore().reload();
-                            }
-                        },
-                        failure: function (response, options) {
-
-                        }
-                    });
-                }
-            }
-        });
-    }
 });
 

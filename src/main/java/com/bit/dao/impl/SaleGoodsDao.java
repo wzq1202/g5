@@ -36,6 +36,11 @@ public class SaleGoodsDao implements ISaleGoodsDao{
     }
 
     @Override
+    public List<SaleGoods> getBySaleId(Integer saleId) {
+        return dao.getSqlMapClientTpl().queryForList("SaleGoods.getBySaleId",saleId);
+    }
+
+    @Override
     public Integer add(SaleGoods saleGoods) {
         return (Integer)dao.getSqlMapClientTpl().insert("SaleGoods.add",saleGoods);
     }

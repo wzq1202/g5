@@ -7,7 +7,10 @@ import org.g4studio.core.model.dao.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -47,5 +50,13 @@ public class PurchaseDao implements IPurchaseDao{
     @Override
     public Integer edit(Purchase purchase) {
         return dao.getSqlMapClientTpl().update("Purchase.edit",purchase);
+    }
+    @Override
+    public Integer setStatus(Integer purchaseId,Integer status,Date finishTime) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("purchaseId",purchaseId);
+        params.put("status",status);
+        params.put("finishTime",finishTime);
+        return dao.getSqlMapClientTpl().update("Purchase.setStatus",params);
     }
 }

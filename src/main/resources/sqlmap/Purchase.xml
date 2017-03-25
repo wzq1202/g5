@@ -21,6 +21,9 @@
         <isNotEmpty property="purchaseNumber" prepend="and">
             purchase_number = #purchaseNumber#
         </isNotEmpty>
+        <isNotEmpty property="status" prepend="and">
+            status = #status#
+        </isNotEmpty>
     </select>
 
     <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Purchase">
@@ -75,6 +78,14 @@
             </isNotEmpty>
 
         </dynamic>
+        WHERE purchase_id = #purchaseId#
+    </update>
+
+    <update id="setStatus">
+        UPDATE t_purchase SET status = #status#
+        <isNotEmpty property="finishTime">
+            ,finish_time = #finishTime#
+        </isNotEmpty>
         WHERE purchase_id = #purchaseId#
     </update>
     <delete id="del" parameterClass="java.lang.Integer">

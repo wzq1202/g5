@@ -17,6 +17,8 @@ public interface IStockDao {
 
     Stock get(Integer stockId);
 
+    Stock getByGoodsId(Integer goodsId);
+
     Integer add(Stock stock);
 
     Integer del(Integer stockId);
@@ -25,4 +27,6 @@ public interface IStockDao {
 
 
     Integer edit(Stock stock);
+
+    Integer doStock(Integer goodsId,Integer amount);
 }

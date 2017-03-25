@@ -19,7 +19,7 @@ public class Purchase {
     private Date finishTime;
     private Integer status;
     private String comment;
-    private List<PurchaseGoods> purchaseGoods;
+    private List<PurchaseGoods> purchaseGoodses;
 
     public Integer getPurchaseId() {
         return purchaseId;
@@ -109,12 +109,12 @@ public class Purchase {
         this.comment = comment;
     }
 
-    public List<PurchaseGoods> getPurchaseGoods() {
-        return purchaseGoods;
+    public List<PurchaseGoods> getPurchaseGoodses() {
+        return purchaseGoodses;
     }
 
-    public void setPurchaseGoods(List<PurchaseGoods> purchaseGoods) {
-        this.purchaseGoods = purchaseGoods;
+    public void setPurchaseGoodses(List<PurchaseGoods> purchaseGoodses) {
+        this.purchaseGoodses = purchaseGoodses;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class Purchase {
                 ", finishTime=" + finishTime +
                 ", status=" + status +
                 ", comment='" + comment + '\'' +
-                ", purchaseGoods=" + purchaseGoods +
+                ", purchaseGoodses=" + purchaseGoodses +
                 '}';
     }
 }

@@ -1,17 +1,16 @@
 package com.bit.enu;
 
 /**
- * Created by qiang on 2017/3/23.
+ * Created by qiang on 2017/3/25.
  */
-public enum PurchaseEnum {
-    REJECT(-1,"驳回"),
-    WAIT(0,"等待确认"),
-    AGREE(1,"已确认"),
-    RECEIVE(2,"准备入库"),
-    FINISH(3,"入库完成");
+public enum StockLogEnum {
+    INIT(0,"初始化"),
+    SALE(1,"销售"),
+    PURCHASE(2,"采购"),
+    EDIT(3,"修改");
     private int value;
     private String msg;
-    PurchaseEnum(int value,String msg){
+    StockLogEnum(int value,String msg){
         this.value = value;
         this.msg = msg;
     }

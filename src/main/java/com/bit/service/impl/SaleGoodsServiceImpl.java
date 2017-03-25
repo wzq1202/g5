@@ -37,10 +37,14 @@ public class SaleGoodsServiceImpl implements ISaleGoodsService {
     @Override
     @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public boolean save(Sale sale) {
+        //1.变更库存
+        //2.记录库存变更记录
+        //3.执行操作
         saleGoodsDao.delBySaleId(sale.getSaleId());
         if (sale.getSaleGoodses() != null && !sale.getSaleGoodses().isEmpty()) {
             saleGoodsDao.addBatch(sale.getSaleGoodses());
         }
+
         return true;
     }
 

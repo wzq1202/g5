@@ -4,7 +4,8 @@
 <sqlMap namespace="Stock">
     <resultMap id="stockMap" class="com.bit.model.Stock">
         <result property="stockId" column="stock_id" javaType="java.lang.Integer"/>
-        <result property="goods" column="goods_id" javaType="java.lang.Integer" select="Goods.get"/>
+        <result property="goods" column="goods_id" select="Goods.get"/>
+        <result property="goodsId" column="goods_id" javaType="java.lang.Integer"/>
         <result property="amount" column="amount" javaType="java.lang.Integer"/>
         <result property="warnAmount" column="warn_amount" javaType="java.lang.Integer"/>
     </resultMap>
@@ -22,7 +23,7 @@
     </select>
 
     <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Stock">
-        select t.* from t_stock t
+        select count(t.stock_id) from t_stock t
         left join t_goods a on t.goods_id = a.goods_id
         where 1 = 1
         <isNotEmpty property="goods.goodsName" prepend="and">
@@ -35,6 +36,10 @@
 
     <select id="get" resultMap="stockMap" parameterClass="java.lang.Integer">
         SELECT t.* FROM t_stock t WHERE t.stock_id = #value#
+    </select>
+
+    <select id="getByGoodsId" resultMap="stockMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_stock t WHERE t.goods_id = #value#
     </select>
 
     <insert id="add" parameterClass="com.bit.model.Stock">
@@ -69,4 +74,7 @@
     <delete id="delByGoodsId" parameterClass="java.lang.Integer">
         DELETE FROM t_stock WHERE goods_id = #value#
     </delete>
+    <update id="doStock">
+        UPDATE t_stock SET amount = amount + #amount# WHERE goods_id = #goodsId#
+    </update>
 </sqlMap>

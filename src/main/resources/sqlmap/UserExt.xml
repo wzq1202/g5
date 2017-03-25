@@ -9,7 +9,7 @@
         <result property="password" column="PASSWORD" javaType="java.lang.String"/>
         <result property="sex" column="SEX" javaType="java.lang.Integer"/>
     </resultMap>
-    <select id="get" parameterClass="java.lang.String">
+    <select id="get" parameterClass="java.lang.String" resultMap="userExtMap">
         SELECT
           t.USERID,t.USERNAME,t.ACCOUNT,t.PASSWORD,t.SEX
         FROM eauser t

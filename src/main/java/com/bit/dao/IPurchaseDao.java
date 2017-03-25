@@ -4,6 +4,7 @@ import com.bit.model.Purchase;
 import com.bit.model.PageBean;
 import com.bit.model.Purchase;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface IPurchaseDao {
     Integer del(Integer purchaseId);
 
     Integer edit(Purchase purchase);
+
+    Integer setStatus(Integer purchaseId,Integer status,Date finishTime);
 }

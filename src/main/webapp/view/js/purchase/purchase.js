@@ -151,8 +151,12 @@ Ext.onReady(function () {
                 if (value == '1') {
                     return '已确认';
                 } else if (value == '2') {
-                    return '已完成';
-                } else {
+                    return '准备入库';
+                } else if (value == '3') {
+                    return '入库完成';
+                } else if (value == -1) {
+                    return '驳回';
+                }else {
                     return '等待确认';
                 }
             }
@@ -205,11 +209,16 @@ Ext.onReady(function () {
                     return;
                 }
 
-                new PurchaseForm({
-                    id: rec.data.purchaseId, flag: 'edit', title: '编辑采购单', callback: function () {
-                        gridPanel.getStore().reload();
-                    }
-                }).show();
+                if (rec.data.status <= 0) {
+                    new PurchaseForm({
+                        id: rec.data.purchaseId, flag: 'edit', title: '编辑采购单', callback: function () {
+                            gridPanel.getStore().reload();
+                        }
+                    }).show();
+                } else {
+                    Ext.Msg.alert('提示信息', '采购单已审批不允许执行此项操作');
+                }
+
             }
         }, '-', {
             id: 'id_del_btn',
@@ -221,24 +230,12 @@ Ext.onReady(function () {
                     Ext.Msg.alert('提示:', '请先选中项目');
                     return;
                 }
-
-                del(rec.data.purchaseId);
-            }
-        }, '-', {
-            id: 'id_add_goods_btn',
-            text: '添加商品',
-            iconCls: 'page_addIcon',
-            handler: function () {
-                var rec = gridPanel.getSelectionModel().getSelected();
-                if (rec == null) {
-                    Ext.Msg.alert('提示:', '请先选中项目');
-                    return;
+                if (rec.data.status <= 0) {
+                    del(rec.data.purchaseId);
+                } else {
+                    Ext.Msg.alert('提示信息', '采购单已审批不允许执行此项操作');
                 }
-                new PurchaseGoodsAdd({
-                    id : rec.data.purchaseId,
-                    title : '添加商品',
-                    flag : 'add'
-                }).show();
+
             }
         }, '-', {
             text: '刷新',

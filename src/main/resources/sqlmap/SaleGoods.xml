@@ -33,6 +33,11 @@
         SELECT t.* FROM t_sale_goods t WHERE t.id = #value#
     </select>
 
+    <select id="getBySaleId" resultMap="saleGoodsMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_sale_goods t WHERE t.sale_id = #value#
+    </select>
+
+
     <insert id="add" parameterClass="com.bit.model.SaleGoods">
 		INSERT
 			t_sale_goods (sale_id,goods_id,amount,out_price)

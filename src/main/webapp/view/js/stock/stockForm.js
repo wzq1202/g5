@@ -1,4 +1,4 @@
-Ext.ns('AttrForm');
+Ext.ns('StockForm');
 /**
  * @author
  * @createtime
@@ -6,16 +6,16 @@ Ext.ns('AttrForm');
  * @extends Ext.Window
  * @description StudentForm表单
  */
-AttrForm = Ext.extend(Ext.Window, {
+StockForm = Ext.extend(Ext.Window, {
     formPanel: null,
     // 构造函数
     constructor: function (_cfg) {
         // 必须先初始化组件
         this.initUIComponents(_cfg);
-        AttrForm.superclass.constructor.call(
+        StockForm.superclass.constructor.call(
             this,
             {
-                id: 'AttrFormWin',
+                id: 'StockFormWin',
                 width: 300,
                 height: 150,
                 layout: 'fit',
@@ -39,15 +39,16 @@ AttrForm = Ext.extend(Ext.Window, {
                     'beforeshow': function (comp) {
                         if (_cfg.id != null && _cfg.id != '' && _cfg.id != 'undefined') {
                             formPanel.load({
-                                url: _ctxpath + '/api/attr/get',
+                                url: _ctxpath + '/api/stock/get',
                                 method: 'GET',
                                 params: {
-                                    attrId: _cfg.id
+                                    stockId: _cfg.id
                                 },
                                 success: function (form, action) {
                                     var res = action.result;
-                                    Ext.getCmp('attrName').setValue(res.data.attrName);
-                                    Ext.getCmp('attrValue').setValue(res.data.attrValue);
+                                    Ext.getCmp('goods.goodsName').setValue(res.data.goods.goodsName);
+                                    Ext.getCmp('amount').setValue(res.data.amount);
+                                    Ext.getCmp('warnAmount').setValue(res.data.warnAmount);
                                 },
                                 failure: function (form, action) {
                                     switch (action.failureType) {
@@ -88,7 +89,7 @@ AttrForm = Ext.extend(Ext.Window, {
                             var form = formPanel.getForm();
                             if (form.isValid()) {
                                 form.submit({
-                                    url: _ctxpath + '/attr/save.do',
+                                    url: _ctxpath + '/stock/save.do',
                                     success: function (form, action) {
                                         var result = action.result;
                                         Ext.Msg.show({
@@ -98,7 +99,7 @@ AttrForm = Ext.extend(Ext.Window, {
                                             buttons: Ext.MessageBox.OK
                                         });
                                         if (result.success) {
-                                            Ext.getCmp('AttrFormWin').close();
+                                            Ext.getCmp('StockFormWin').close();
                                             if (_cfg.callback != null) {
                                                 _cfg.callback.call(this);
                                             }
@@ -147,7 +148,7 @@ AttrForm = Ext.extend(Ext.Window, {
                         text: '关闭',
                         iconCls: 'deleteIcon',
                         handler: function () {
-                            Ext.getCmp('AttrFormWin').close();
+                            Ext.getCmp('StockFormWin').close();
                         }
                     }]
             });
@@ -155,9 +156,8 @@ AttrForm = Ext.extend(Ext.Window, {
     // end of the constructor
     // 初始化组件
     initUIComponents: function (obj) {
-
         formPanel = new Ext.form.FormPanel({
-            id: 'AttrFormPanel',
+            id: 'StockFormPanel',
             width: 450,
             layout: "form",
             labelAlign: 'right',
@@ -166,20 +166,26 @@ AttrForm = Ext.extend(Ext.Window, {
             labelWidth: 80,
             items: [{
                 xtype: 'hidden',
-                id: 'attrId',
-                name: 'attrId',
+                id: 'stockId',
+                name: 'stockId',
                 value: obj.id
             },{
                 xtype: 'textfield',
-                id: 'attrName',
-                name: 'attrName',
-                fieldLabel: '属性名称',
+                id: 'goods.goodsName',
+                name: 'goods.goodsName',
+                fieldLabel: '商品名称',
+                readOnly:true
+            },{
+                xtype: 'textfield',
+                id: 'amount',
+                name: 'amount',
+                fieldLabel: '库存',
                 allowBlank: false
             },{
                 xtype: 'textfield',
-                id: 'attrValue',
-                name: 'attrValue',
-                fieldLabel: '属性值',
+                id: 'warnAmount',
+                name: 'warnAmount',
+                fieldLabel: '库存预警',
                 allowBlank: false
             }]
         });
