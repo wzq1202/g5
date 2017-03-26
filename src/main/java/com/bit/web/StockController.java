@@ -58,4 +58,10 @@ public class StockController extends BizAction{
         boolean flag = stockService.del(stockId);
         return new Response(flag,"删除成功","删除失败");
     }
+
+    @RequestMapping("/purchase2Stock")
+    public Response purchase2Stock(Integer purchaseId) {
+        boolean flag = stockService.purchase2Stock(purchaseId);
+        return new Response(flag,"入库成功","入库失败");
+    }
 }

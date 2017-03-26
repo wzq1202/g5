@@ -38,6 +38,9 @@
         SELECT t.* FROM t_purchase_goods t WHERE t.id = #value#
     </select>
 
+    <select id="getByPurchaseId" resultMap="purchaseGoodsMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_purchase_goods t WHERE t.purchase_id = #value#
+    </select>
     <insert id="add" parameterClass="com.bit.model.PurchaseGoods">
 		INSERT
 			t_purchase_goods (purchase_id,goods_name,amount,price,supplier_id,brand,ori_area,type_id)

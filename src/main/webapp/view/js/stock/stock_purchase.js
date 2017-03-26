@@ -103,12 +103,12 @@ Ext.onReady(function () {
             dataIndex: 'actual',
             width: 80
         },
-            /*{
+        {
                 header: '创建人',
                 sortable: true,
                 dataIndex: 'userExt.userName',
                 width: 80
-            },*/
+        },
         {
             header: '创建时间',
             sortable: true,
@@ -248,7 +248,7 @@ Ext.onReady(function () {
         }]
     });
 
-    function setStatus(id,status,msg) {
+    function setStatus(id, status, msg) {
 
         Ext.Msg.show({
             title: '提示信息',
@@ -262,7 +262,44 @@ Ext.onReady(function () {
                         method: 'GET',
                         params: {
                             purchaseId: id,
-                            status:status
+                            status: status
+                        },
+                        success: function (response, options) {
+                            var result = Ext.decode(response.responseText);
+                            Ext.Msg.show({
+                                title: '提示信息',
+                                msg: result.msg,
+                                icon: Ext.MessageBox.INFO,
+                                buttons: Ext.MessageBox.OK
+                            });
+                            if (result.success == true) {
+                                gridPanel.getStore().reload();
+                            }
+                        },
+                        failure: function (response, options) {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function addStock(purchaseId) {
+
+        Ext.Msg.show({
+            title: '提示信息',
+            msg: '确定执行操作吗？',
+            icon: Ext.MessageBox.INFO,
+            buttons: Ext.MessageBox.OKCANCEL,
+            fn: function (btnId, text, opt) {
+                if (btnId == 'ok') {
+                    Ext.Ajax.request({
+                        url: _ctxpath + '/api/purchase/setStatus',
+                        method: 'GET',
+                        params: {
+                            purchaseId: id,
+                            status: status
                         },
                         success: function (response, options) {
                             var result = Ext.decode(response.responseText);

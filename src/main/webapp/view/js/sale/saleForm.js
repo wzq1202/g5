@@ -275,6 +275,10 @@ SaleForm = Ext.extend(Ext.Window, {
 
 function initGrid(obj) {
 
+    var _id = 100000000;
+    if (obj && obj.id && obj.id != null && obj.id != '') {
+        _id = obj.id;
+    }
     var store = new Ext.data.Store({
         autoLoad: {
             params: {
@@ -284,7 +288,7 @@ function initGrid(obj) {
         },
 
         proxy: new Ext.data.HttpProxy({
-            url: _ctxpath + '/api/saleGoods/getAll?where.saleId=100000000'
+            url: _ctxpath + '/api/saleGoods/getAll?where.saleId=' + _id
         }),
         reader: new Ext.data.JsonReader({
             totalProperty: 'totalCount',

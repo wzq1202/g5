@@ -19,4 +19,6 @@ public interface IStockService {
 
     boolean doStock(Integer goodsId, Integer amount, String userId, StockLogEnum stockLogEnum);
 
+    boolean purchase2Stock(Integer purchaseId);
+
 }

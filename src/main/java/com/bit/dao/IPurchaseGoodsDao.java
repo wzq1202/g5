@@ -24,4 +24,6 @@ public interface IPurchaseGoodsDao {
 
     Integer delByPurchaseId(Integer purchaseId);
 
+    List<PurchaseGoods> getByPurchaseId(Integer purchaseId);
+
 }

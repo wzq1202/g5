@@ -154,7 +154,7 @@ Ext.onReady(function () {
             handler: function () {
                 new SaleForm({
                     id : '',
-                    title: '新增商品属性', callback: function () {
+                    title: '添加销售单', callback: function () {
                         gridPanel.getStore().reload();
                     }
                 }).show();

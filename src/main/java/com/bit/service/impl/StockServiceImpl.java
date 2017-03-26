@@ -1,13 +1,13 @@
 package com.bit.service.impl;
 
+import com.bit.dao.IPurchaseDao;
+import com.bit.dao.IPurchaseGoodsDao;
 import com.bit.dao.IStockDao;
 import com.bit.dao.impl.StockLogDao;
 import com.bit.enu.StockLogEnum;
-import com.bit.model.PageBean;
-import com.bit.model.PageList;
-import com.bit.model.Stock;
-import com.bit.model.StockLog;
+import com.bit.model.*;
 import com.bit.service.IStockService;
+import org.g4studio.core.resource.util.MD5;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -26,6 +28,10 @@ public class StockServiceImpl implements IStockService {
     private IStockDao stockDao;
     @Autowired
     private StockLogDao stockLogDao;
+    @Autowired
+    private IPurchaseDao purchaseDao;
+    @Autowired
+    private IPurchaseGoodsDao purchaseGoodsDao;
     @Override
     public PageList<Stock> getAll(PageBean<Stock> pageBean) {
         PageList<Stock> pageList = new PageList<>();
@@ -82,5 +88,44 @@ public class StockServiceImpl implements IStockService {
         //处理库存
         Integer res = stockDao.doStock(goodsId,amount);
         return (res != null && res > 0) ? true : false;
+    }
+
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
+    @Override
+    public boolean purchase2Stock(Integer purchaseId) {
+        List<PurchaseGoods> purchaseGoodses =  purchaseGoodsDao.getByPurchaseId(purchaseId);
+//        for () {
+//
+//        }
+
+        return false;
+    }
+
+    private boolean isSameGoods(Goods g1,Goods g2){
+        String g1Str = this.goods2md5(g1);
+        String g2Str = this.goods2md5(g2);
+        boolean flag = false;
+        if (g1Str.equals(g2Str)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    private String goods2md5(Goods goods) {
+        TreeMap<String,Object> treeMap = new TreeMap();
+        treeMap.put("goodsName",goods.getGoodsName());
+        treeMap.put("brand",goods.getBrand());
+        treeMap.put("ori_area",goods.getOriArea());
+        treeMap.put("type_id",goods.getTypeId());
+        StringBuffer sb = new StringBuffer("");
+        for (Map.Entry<String,Object> entry : treeMap.entrySet()) {
+            Object _value = entry.getValue();
+            if (_value != null) {
+                sb.append(entry.getKey()).append("=").append(_value).append("&");
+            }
+        }
+        sb.substring(0,sb.length() - 1);
+        MD5 md5 = new MD5();
+        return md5.getMD5ofStr(sb.toString());
     }
 }

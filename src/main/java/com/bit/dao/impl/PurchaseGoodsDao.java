@@ -54,4 +54,9 @@ public class PurchaseGoodsDao implements IPurchaseGoodsDao{
     public Integer delByPurchaseId(Integer purchaseId) {
         return dao.getSqlMapClientTpl().delete("PurchaseGoods.delByPurchaseId",purchaseId);
     }
+
+    @Override
+    public List<PurchaseGoods> getByPurchaseId(Integer purchaseId) {
+        return dao.getSqlMapClientTpl().queryForList("PurchaseGoods.getByPurchaseId",purchaseId);
+    }
 }
