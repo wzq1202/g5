@@ -78,7 +78,7 @@
                     </httpConnector>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/g5</contextPath>
+                        <contextPath>/supermarket</contextPath>
                         <defaultsDescriptor>src/main/resources/jetty/webdefault.xml</defaultsDescriptor>
                     </webApp>
                 </configuration>

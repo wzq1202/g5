@@ -61,6 +61,6 @@ public class PurchaseController extends BizAction{
     @RequestMapping("/setStatus")
     public Response setStatus(Integer purchaseId,Integer status) {
         boolean flag = purchaseService.setStatus(purchaseId,status);
-        return new Response(flag,"删除成功","删除失败");
+        return new Response(flag,"操作成功","操作失败");
     }
 }
