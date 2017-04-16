@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Statistics">
+    <resultMap id="statisticsMap" class="com.bit.model.Statistics">
+        <result property="goodsName" column="goods_name" javaType="java.lang.String"/>
+        <result property="inAmount" column="in_amount" javaType="java.lang.Integer"/>
+        <result property="outAmount" column="out_amount" javaType="java.lang.Integer"/>
+        <result property="inMoney" column="in_money" javaType="java.math.BigDecimal"/>
+        <result property="outMoney" column="out_money" javaType="java.math.BigDecima"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="statisticsMap" parameterClass="com.bit.model.Statistics">
+        select
+        where 1 = 1
+        <isNotEmpty property="startTime" prepend="and">
+
+        </isNotEmpty>
+        <isNotEmpty property="endTime" prepend="and">
+
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Attr">
+        select count(t.attr_id) from t_attr t
+        where 1 = 1
+        <isNotEmpty property="attrName" prepend="and">
+            attr_name like '%$attrName$%'
+        </isNotEmpty>
+    </select>
+
+</sqlMap>
