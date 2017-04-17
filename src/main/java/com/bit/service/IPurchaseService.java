@@ -18,4 +18,6 @@ public interface IPurchaseService {
 
     boolean setStatus(Integer purchaseId,Integer status);
 
+    boolean addStock(Integer purchaseId,String userId);
+
 }

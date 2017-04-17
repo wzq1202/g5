@@ -113,4 +113,13 @@
     <delete id="del" parameterClass="java.lang.Integer">
         DELETE FROM t_goods WHERE goods_id = #value#
     </delete>
+    
+    <select id="getSameGoods" resultMap="goodsMap" parameterClass="com.bit.model.Goods">
+        select t.* from t_goods t
+        where 1 = 1
+        and t.goods_name = #goodsName#
+        and t.supplier_id = #supplierId#
+        and t.brand = #brand#
+        and t.type_id = #typeId#
+    </select>
 </sqlMap>

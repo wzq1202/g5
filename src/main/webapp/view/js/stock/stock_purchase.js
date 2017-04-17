@@ -214,7 +214,8 @@ Ext.onReady(function () {
                 }
 
                 if (rec.data.status == 2) {
-                    setStatus(rec.data.purchaseId,3);
+                    addStock(rec.data.purchaseId);
+                    // setStatus(rec.data.purchaseId,3);
                 } else {
                     Ext.Msg.alert('提示信息', '采购单状态不允许执行此项操作');
                 }
@@ -285,6 +286,10 @@ Ext.onReady(function () {
         });
     }
 
+    /**
+     * 确认入库
+     * @param purchaseId
+     */
     function addStock(purchaseId) {
 
         Ext.Msg.show({
@@ -295,11 +300,10 @@ Ext.onReady(function () {
             fn: function (btnId, text, opt) {
                 if (btnId == 'ok') {
                     Ext.Ajax.request({
-                        url: _ctxpath + '/api/purchase/setStatus',
+                        url: _ctxpath + '/api/purchase/addStock',
                         method: 'GET',
                         params: {
-                            purchaseId: id,
-                            status: status
+                            purchaseId: purchaseId
                         },
                         success: function (response, options) {
                             var result = Ext.decode(response.responseText);

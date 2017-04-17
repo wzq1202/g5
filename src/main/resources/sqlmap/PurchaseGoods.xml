@@ -69,4 +69,7 @@
     <delete id="delByPurchaseId" parameterClass="java.lang.Integer">
         DELETE FROM t_purchase_goods WHERE purchase_id = #value#
     </delete>
+    <update id="updateGoodsId">
+        UPDATE t_purchase_goods SET goods_id = #goodsId# WHERE id = #id#
+    </update>
 </sqlMap>

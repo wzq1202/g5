@@ -10,6 +10,7 @@ public class PurchaseGoods {
     private Integer id;
     private Integer purchaseId;
     private Purchase purchase;
+    private Integer goodsId;
     private String goodsName;
     private String brand;
     private String oriArea;
@@ -116,12 +117,22 @@ public class PurchaseGoods {
         this.price = price;
     }
 
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
+    }
+
+
     @Override
     public String toString() {
         return "PurchaseGoods{" +
                 "id=" + id +
                 ", purchaseId=" + purchaseId +
                 ", purchase=" + purchase +
+                ", goodsId=" + goodsId +
                 ", goodsName='" + goodsName + '\'' +
                 ", brand='" + brand + '\'' +
                 ", oriArea='" + oriArea + '\'' +

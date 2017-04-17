@@ -22,4 +22,6 @@ public interface IGoodsDao {
     Integer del(Integer goodsId);
 
     Integer edit(Goods goods);
+
+    Goods getSameGoods(Goods goods);
 }

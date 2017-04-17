@@ -63,4 +63,17 @@ public class PurchaseController extends BizAction{
         boolean flag = purchaseService.setStatus(purchaseId,status);
         return new Response(flag,"操作成功","操作失败");
     }
+
+    /**
+     * 确认入库
+     * @param purchaseId
+     * @return
+     */
+    @RequestMapping("/addStock")
+    public Response addStock(Integer purchaseId,HttpServletRequest request) {
+        String userId = super.getSessionContainer(request).getUserInfo().getUserid();
+        boolean flag = purchaseService.addStock(purchaseId,userId);
+        return new Response(flag,"入库成功","入库失败");
+    }
+
 }

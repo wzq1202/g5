@@ -26,4 +26,6 @@ public interface IPurchaseGoodsDao {
 
     List<PurchaseGoods> getByPurchaseId(Integer purchaseId);
 
+    Integer updateGoodsId(Integer id,Integer goodsId);
+
 }

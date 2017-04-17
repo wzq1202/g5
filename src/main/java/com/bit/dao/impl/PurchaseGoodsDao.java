@@ -8,7 +8,9 @@ import org.g4studio.core.model.dao.Dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by qiang on 2017/3/5.
@@ -58,5 +60,13 @@ public class PurchaseGoodsDao implements IPurchaseGoodsDao{
     @Override
     public List<PurchaseGoods> getByPurchaseId(Integer purchaseId) {
         return dao.getSqlMapClientTpl().queryForList("PurchaseGoods.getByPurchaseId",purchaseId);
+    }
+
+    @Override
+    public Integer updateGoodsId(Integer id, Integer goodsId) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("id",id);
+        params.put("goodsId",goodsId);
+        return dao.getSqlMapClientTpl().update("PurchaseGoods.updateGoodsId",params);
     }
 }

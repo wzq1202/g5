@@ -49,4 +49,9 @@ public class GoodsDao implements IGoodsDao{
     public Integer edit(Goods goods) {
         return dao.getSqlMapClientTpl().update("Goods.edit",goods);
     }
+
+    @Override
+    public Goods getSameGoods(Goods goods) {
+        return (Goods) dao.getSqlMapClientTpl().queryForObject("Goods.getSameGoods",goods);
+    }
 }
