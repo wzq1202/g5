@@ -20,14 +20,26 @@ public class StatisticsDao implements IStatisticsDao{
     private Dao dao;
 
     @Override
-    public List<Statistics> getAll(PageBean<Statistics> pageBean) {
-        List<Statistics> list = dao.getSqlMapClientTpl().queryForList("Statistics.getAll",pageBean.getWhere(),pageBean.getStart(),pageBean.getLimit());
+    public List<Statistics> getPurchase(PageBean<Statistics> pageBean) {
+        List<Statistics> list = dao.getSqlMapClientTpl().queryForList("Statistics.getPurchase",pageBean.getWhere(),pageBean.getStart(),pageBean.getLimit());
         return list;
     }
 
     @Override
-    public Integer getAllCount(PageBean<Statistics> pageBean) {
-        Integer count = (Integer)dao.getSqlMapClientTpl().queryForObject("Statistics.getAllCount",pageBean.getWhere());
+    public Integer getPurchaseCount(PageBean<Statistics> pageBean) {
+        Integer count = (Integer)dao.getSqlMapClientTpl().queryForObject("Statistics.getPurchaseCount",pageBean.getWhere());
+        return count;
+    }
+
+    @Override
+    public List<Statistics> getSale(PageBean<Statistics> pageBean) {
+        List<Statistics> list = dao.getSqlMapClientTpl().queryForList("Statistics.getSale",pageBean.getWhere(),pageBean.getStart(),pageBean.getLimit());
+        return list;
+    }
+
+    @Override
+    public Integer getSaleCount(PageBean<Statistics> pageBean) {
+        Integer count = (Integer)dao.getSqlMapClientTpl().queryForObject("Statistics.getSaleCount",pageBean.getWhere());
         return count;
     }
 

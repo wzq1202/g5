@@ -20,12 +20,22 @@ import java.util.List;
 public class StatisticsServiceImpl implements IStatisticsService {
     @Autowired
     private IStatisticsDao statisticsDao;
+
     @Override
-    public PageList<Statistics> getAll(PageBean<Statistics> pageBean) {
+    public PageList<Statistics> getPurchase(PageBean<Statistics> pageBean) {
         PageList<Statistics> pageList = new PageList<>();
-        List<Statistics> list = statisticsDao.getAll(pageBean);
+        List<Statistics> list = statisticsDao.getPurchase(pageBean);
         pageList.setRoot(list);
-        pageList.setTotalCount(statisticsDao.getAllCount(pageBean));
+        pageList.setTotalCount(statisticsDao.getPurchaseCount(pageBean));
+        return pageList;
+    }
+
+    @Override
+    public PageList<Statistics> getSale(PageBean<Statistics> pageBean) {
+        PageList<Statistics> pageList = new PageList<>();
+        List<Statistics> list = statisticsDao.getSale(pageBean);
+        pageList.setRoot(list);
+        pageList.setTotalCount(statisticsDao.getSaleCount(pageBean));
         return pageList;
     }
 

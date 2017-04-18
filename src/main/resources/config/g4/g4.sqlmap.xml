@@ -30,4 +30,5 @@
 	<sqlMap resource="sqlmap/PurchaseGoods.xml" />
 	<sqlMap resource="sqlmap/Sale.xml" />
 	<sqlMap resource="sqlmap/SaleGoods.xml" />
+	<sqlMap resource="sqlmap/Statistics.xml" />
 </sqlMapConfig>

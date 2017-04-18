@@ -11,8 +11,12 @@ import java.util.List;
  */
 public interface IStatisticsDao {
 
-    List<Statistics> getAll(PageBean<Statistics> pageBean);
+    List<Statistics> getPurchase(PageBean<Statistics> pageBean);
 
-    Integer getAllCount(PageBean<Statistics> pageBean);
+    Integer getPurchaseCount(PageBean<Statistics> pageBean);
+
+    List<Statistics> getSale(PageBean<Statistics> pageBean);
+
+    Integer getSaleCount(PageBean<Statistics> pageBean);
 
 }

@@ -124,7 +124,7 @@ public class PurchaseServiceImpl implements IPurchaseService {
                     purchaseGoodsDao.updateGoodsId(pg.getId(),goods.getGoodsId());
 
                     //添加库存记录
-                    stockService.doStock(q_goods.getGoodsId(),pg.getAmount(),userId, StockLogEnum.PURCHASE);
+                    stockService.doStock(goods.getGoodsId(),pg.getAmount(),userId, StockLogEnum.PURCHASE);
                 }
             }
             purchaseDao.setStatus(purchaseId,PurchaseEnum.FINISH.getValue(),new Date());

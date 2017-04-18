@@ -76,17 +76,36 @@ public class StockServiceImpl implements IStockService {
     @Override
     @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public boolean doStock(Integer goodsId, Integer amount, String userId, StockLogEnum stockLogEnum) {
+        Integer res = 0;
         //记录库存记录
         Stock stock = stockDao.getByGoodsId(goodsId);
         StockLog stockLog = new StockLog();
-        BeanUtils.copyProperties(stock,stockLog);
+        if (stock != null) {
+            BeanUtils.copyProperties(stock,stockLog);
+            stockLog.setChgType(stockLogEnum.getValue());
+            //添加库存
+            res = stockDao.doStock(goodsId,amount);
+        } else {
+            //添加库存
+            stock = new Stock();
+            stock.setGoodsId(goodsId);
+            stock.setAmount(amount);
+            stock.setWarnAmount(0);
+            res = stockDao.add(stock);
+
+            //设置库存记录
+            stockLog.setAmount(0);
+            stockLog.setChgType(StockLogEnum.INIT.getValue());
+        }
+
+        //添加库存记录
+        stockLog.setStockId(stock.getStockId());
+        stockLog.setGoodsId(goodsId);
         stockLog.setCreateTime(new Date());
         stockLog.setUserId(userId);
         stockLog.setChgAmount(amount);
-        stockLog.setChgType(stockLogEnum.getValue());
         stockLogDao.add(stockLog);
         //处理库存
-        Integer res = stockDao.doStock(goodsId,amount);
         return (res != null && res > 0) ? true : false;
     }
 

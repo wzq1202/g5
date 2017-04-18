@@ -7,26 +7,88 @@
         <result property="inAmount" column="in_amount" javaType="java.lang.Integer"/>
         <result property="outAmount" column="out_amount" javaType="java.lang.Integer"/>
         <result property="inMoney" column="in_money" javaType="java.math.BigDecimal"/>
-        <result property="outMoney" column="out_money" javaType="java.math.BigDecima"/>
+        <result property="outMoney" column="out_money" javaType="java.math.BigDecimal"/>
+        <result property="price" column="price" javaType="java.math.BigDecimal"/>
     </resultMap>
 
-    <select id="getAll" resultMap="statisticsMap" parameterClass="com.bit.model.Statistics">
-        select
-        where 1 = 1
+    <select id="getPurchase" resultMap="statisticsMap" parameterClass="com.bit.model.Statistics">
+        SELECT
+            a.goods_id,
+            a.goods_name,
+            0 out_amount,
+            0 out_money,
+            IFNULL(SUM(a.amount),0) in_amount,
+            IFNULL(SUM(a.amount * a.price),0) in_money,
+            a.price
+        FROM t_purchase_goods a LEFT JOIN t_purchase b ON a.purchase_id = b.purchase_id
+        WHERE 1 = 1 and a.goods_id is not NULL
         <isNotEmpty property="startTime" prepend="and">
-
+            b.finish_time <![CDATA[>=]]> #startTime#
         </isNotEmpty>
         <isNotEmpty property="endTime" prepend="and">
-
+            b.finish_time <![CDATA[<=]]> #endTime#
         </isNotEmpty>
+        GROUP BY a.goods_id
     </select>
 
-    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Attr">
-        select count(t.attr_id) from t_attr t
-        where 1 = 1
-        <isNotEmpty property="attrName" prepend="and">
-            attr_name like '%$attrName$%'
+    <select id="getPurchaseCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Statistics">
+        SELECT COUNT(x.goods_id) FROM (
+            SELECT
+              a.goods_id
+            FROM t_purchase_goods a LEFT JOIN t_purchase b ON a.purchase_id = b.purchase_id
+            WHERE 1 = 1 and a.goods_id is not NULL
+            <isNotEmpty property="startTime" prepend="and">
+                b.finish_time <![CDATA[>=]]> #startTime#
+            </isNotEmpty>
+            <isNotEmpty property="endTime" prepend="and">
+                b.finish_time <![CDATA[<=]]> #endTime#
+            </isNotEmpty>
+            GROUP BY a.goods_id
+        ) x
+    </select>
+
+    <select id="getSale" resultMap="statisticsMap" parameterClass="com.bit.model.Statistics">
+        SELECT
+            a.goods_id,
+            b.goods_name,
+            0 in_amount,
+            0 in_money,
+            IFNULL(SUM(a.amount),0) out_amount,
+            IFNULL(SUM(a.amount * a.out_price),0) out_money,
+            a.out_price price
+        FROM
+          t_sale_goods a
+          LEFT JOIN t_goods b ON a.goods_id = b.goods_id
+          left join t_sale c ON a.sale_id = c.sale_id
+        WHERE
+        1 = 1
+        <isNotEmpty property="startTime" prepend="and">
+            c.create_time <![CDATA[>=]]> #startTime#
         </isNotEmpty>
+        <isNotEmpty property="endTime" prepend="and">
+            c.create_time <![CDATA[<=]]> #endTime#
+        </isNotEmpty>
+        GROUP BY
+          a.goods_id
+    </select>
+
+    <select id="getSaleCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Statistics">
+        SELECT COUNT(x.goods_id) FROM (
+            SELECT
+              a.goods_id
+            FROM
+              t_sale_goods a LEFT JOIN t_goods b ON a.goods_id = b.goods_id
+            WHERE
+              1 = 1
+            <isNotEmpty property="startTime" prepend="and">
+                b.create_time <![CDATA[>=]]> #startTime#
+            </isNotEmpty>
+            <isNotEmpty property="endTime" prepend="and">
+                b.create_time <![CDATA[<=]]> #endTime#
+            </isNotEmpty>
+            GROUP BY
+              a.goods_id
+        ) x
     </select>
 
 </sqlMap>

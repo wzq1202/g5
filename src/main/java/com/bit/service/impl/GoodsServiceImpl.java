@@ -4,8 +4,10 @@ import com.bit.dao.IGoodsDao;
 import com.bit.dao.IStockDao;
 import com.bit.dao.ISupplierDao;
 import com.bit.dao.impl.GoodsAttrDao;
+import com.bit.enu.StockLogEnum;
 import com.bit.model.*;
 import com.bit.service.IGoodsService;
+import com.bit.service.IStockService;
 import com.bit.service.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class GoodsServiceImpl implements IGoodsService {
     private IStockDao stockDao;
     @Autowired
     private GoodsAttrDao goodsAttrDao;
+    @Autowired
+    private IStockService stockService;
     @Override
     public PageList<Goods> getAll(PageBean<Goods> pageBean) {
         PageList<Goods> pageList = new PageList<>();
@@ -49,12 +53,7 @@ public class GoodsServiceImpl implements IGoodsService {
         } else {
             goods.setCreateTime(new Date());
             res = goodsDao.add(goods);
-            //添加库存记录
-            Stock stock = new Stock();
-            stock.setGoodsId(goods.getGoodsId());
-            stock.setAmount(0);
-            stock.setWarnAmount(0);
-            stockDao.add(stock);
+            stockService.doStock(goods.getGoodsId(),0,goods.getUserId(),StockLogEnum.INIT);
         }
         return (res != null && res > 0) ? true : false;
     }

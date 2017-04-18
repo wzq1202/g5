@@ -12,8 +12,9 @@ public class Statistics {
     private Integer outAmount;
     private BigDecimal inMoney;
     private BigDecimal outMoney;
-    private Date startTime;
-    private Date endTime;
+    private BigDecimal price;
+    private String startTime;
+    private String endTime;
 
     public String getGoodsName() {
         return goodsName;
@@ -55,19 +56,28 @@ public class Statistics {
         this.outMoney = outMoney;
     }
 
-    public Date getStartTime() {
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -79,8 +89,9 @@ public class Statistics {
                 ", outAmount=" + outAmount +
                 ", inMoney=" + inMoney +
                 ", outMoney=" + outMoney +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", price=" + price +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
                 '}';
     }
 }
