@@ -92,9 +92,20 @@ SaleForm = Ext.extend(Ext.Window, {
                         handler: function () {
                             var form = formPanel.getForm();
                             if (form.isValid()) {
+                                var _flag = true;
                                 if (!_cfg.id || _cfg.id == null || _cfg.id == '') {
                                     var _arr = new Array();
                                     Ext.getCmp('saleGoodsAdd_gd').getStore().each(function(rec){
+                                        if (rec.data.amount <= 0 || rec.data.amount > rec.data.stockAmount) {
+                                            Ext.Msg.show({
+                                                title: 'Failure',
+                                                msg: '库存不足',
+                                                icon: Ext.MessageBox.ERROR,
+                                                buttons: Ext.MessageBox.OK
+                                            });
+                                            _flag = false;
+                                            return ;
+                                        }
                                         var o = new Object();
                                         o.goodsId = rec.data.goodsId;
                                         o.amount = rec.data.amount;
@@ -103,6 +114,9 @@ SaleForm = Ext.extend(Ext.Window, {
                                     });
                                     Ext.getCmp('saleGoods').setValue('');
                                     Ext.getCmp('saleGoods').setValue(Ext.util.JSON.encode(_arr));
+                                }
+                                if (!_flag) {
+                                    return;
                                 }
 
                                 form.submit({
@@ -298,7 +312,9 @@ function initGrid(obj) {
             {name: 'goods.brand'},
             {name: 'goods.oriArea'},
             {name: 'amount'},
-            {name: 'outPrice'}
+            {name: 'outPrice'},
+            {name: 'stockAmount'},
+            {name: 'stockWarnAmount'}
         ])
     });
 
@@ -346,6 +362,11 @@ function initGrid(obj) {
             sortable: true,
             dataIndex: 'outPrice',
             width: 80
+        },{
+            header: '库存',
+            sortable: true,
+            dataIndex: 'stockAmount',
+            width: 80
         }
     ]);
 
@@ -391,6 +412,7 @@ function initGrid(obj) {
                                     _rc.set('goods.oriArea',item.data.oriArea);
                                     _rc.set('amount','1');
                                     _rc.set('outPrice',item.data.outPrice);
+                                    _rc.set('stockAmount',item.data.stockAmount);
                                     _arr.push(_rc);
                                 }
                             });
@@ -408,7 +430,23 @@ function initGrid(obj) {
                 Ext.getCmp('saleGoodsAdd_gd').getStore().remove(recs);
             }
         }],
-        bbar: bbar
+        bbar: bbar,
+        listeners : {
+            afteredit : function(e){
+                // grid,rec,field,value,oriValue,row,col
+                var stock_amount = e.record.data.stockAmount;
+                stock_amount = (stock_amount && stock_amount != null && stock_amount != '') ? stock_amount : 0;
+                if (e.value > stock_amount) {
+                    Ext.Msg.show({
+                        title: 'Failure',
+                        msg: '库存不足',
+                        icon: Ext.MessageBox.ERROR,
+                        buttons: Ext.MessageBox.OK
+                    });
+                    e.record.set('amount',0);
+                }
+            }
+        }
     });
 
     var idx = editorGridPanel.getColumnModel().findColumnIndex('amount');

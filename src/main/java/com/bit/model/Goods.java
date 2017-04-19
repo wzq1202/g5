@@ -66,6 +66,11 @@ public class Goods {
      */
     private UserExt userExt;
 
+    /**
+     * 库存预警
+     */
+    private Integer stockWarnAmount;
+    private Integer stockAmount;
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -186,6 +191,22 @@ public class Goods {
         this.userExt = userExt;
     }
 
+    public Integer getStockWarnAmount() {
+        return stockWarnAmount;
+    }
+
+    public void setStockWarnAmount(Integer stockWarnAmount) {
+        this.stockWarnAmount = stockWarnAmount;
+    }
+
+    public Integer getStockAmount() {
+        return stockAmount;
+    }
+
+    public void setStockAmount(Integer stockAmount) {
+        this.stockAmount = stockAmount;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -204,6 +225,8 @@ public class Goods {
                 ", type=" + type +
                 ", userId='" + userId + '\'' +
                 ", userExt=" + userExt +
+                ", stockWarnAmount=" + stockWarnAmount +
+                ", stockAmount=" + stockAmount +
                 '}';
     }
 }

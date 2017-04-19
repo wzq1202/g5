@@ -10,10 +10,13 @@
         <result property="sale" column="sale_id" select="Sale.get"/>
         <result property="amount" column="amount" javaType="java.lang.Integer"/>
         <result property="outPrice" column="out_price" javaType="java.math.BigDecimal"/>
+        <result property="stockWarnAmount" column="stock_warn_amount" javaType="java.lang.Integer"/>
+        <result property="stockAmount" column="stock_amount" javaType="java.lang.Integer"/>
     </resultMap>
 
     <select id="getAll" resultMap="saleGoodsMap" parameterClass="com.bit.model.SaleGoods">
-        select t.* from t_sale_goods t
+        select t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+         from t_sale_goods t left join t_stock x on t.goods_id = x.goods_id
         where 1 = 1
         <isNotEmpty property="saleId" prepend="and">
             sale_id = #saleId#
@@ -30,11 +33,15 @@
     </select>
 
     <select id="get" resultMap="saleGoodsMap" parameterClass="java.lang.Integer">
-        SELECT t.* FROM t_sale_goods t WHERE t.id = #value#
+        SELECT t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+        FROM t_sale_goods t left join t_stock x on t.goods_id = x.goods_id
+        WHERE t.id = #value#
     </select>
 
     <select id="getBySaleId" resultMap="saleGoodsMap" parameterClass="java.lang.Integer">
-        SELECT t.* FROM t_sale_goods t WHERE t.sale_id = #value#
+        SELECT t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+        FROM t_sale_goods t left join t_stock x on t.goods_id = x.goods_id
+        WHERE t.sale_id = #value#
     </select>
 
 

@@ -13,6 +13,11 @@ public class SaleGoods {
     private Goods goods;
     private Integer amount;
     private BigDecimal outPrice;
+    /**
+     * 库存预警
+     */
+    private Integer stockWarnAmount;
+    private Integer stockAmount;
 
     public Integer getId() {
         return id;
@@ -70,6 +75,22 @@ public class SaleGoods {
         this.outPrice = outPrice;
     }
 
+    public Integer getStockWarnAmount() {
+        return stockWarnAmount;
+    }
+
+    public void setStockWarnAmount(Integer stockWarnAmount) {
+        this.stockWarnAmount = stockWarnAmount;
+    }
+
+    public Integer getStockAmount() {
+        return stockAmount;
+    }
+
+    public void setStockAmount(Integer stockAmount) {
+        this.stockAmount = stockAmount;
+    }
+
     @Override
     public String toString() {
         return "SaleGoods{" +
@@ -80,6 +101,8 @@ public class SaleGoods {
                 ", goods=" + goods +
                 ", amount=" + amount +
                 ", outPrice=" + outPrice +
+                ", stockWarnAmount=" + stockWarnAmount +
+                ", stockAmount=" + stockAmount +
                 '}';
     }
 }

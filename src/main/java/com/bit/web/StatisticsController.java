@@ -1,6 +1,5 @@
 package com.bit.web;
 
-import com.bit.model.Goods;
 import com.bit.model.PageBean;
 import com.bit.model.PageList;
 import com.bit.model.Statistics;

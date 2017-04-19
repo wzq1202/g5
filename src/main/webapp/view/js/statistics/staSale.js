@@ -58,7 +58,7 @@ Ext.onReady(function () {
                     name: 'where.startTime',
                     xtype: "datefield",
                     format:'Y-m-d',
-                    editable:true,
+                    editable:false,
                     width: 100
                 }]
             },{
@@ -71,7 +71,7 @@ Ext.onReady(function () {
                     align: 'left',
                     name: 'where.endTime',
                     xtype: "datefield",
-                    editable:true,
+                    editable:false,
                     format:'Y-m-d',
                     width: 100
                 }]

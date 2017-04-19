@@ -108,6 +108,8 @@ SaleGoodsAdd = Ext.extend(Ext.Window, {
                 name: 'supplier.supplierName'
             }, {
                 name: 'type.typeName'
+            }, {
+                name: 'stockAmount'
             }
             ])
         });

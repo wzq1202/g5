@@ -17,10 +17,13 @@
         <result property="typeId" column="type_id" jdbcType="java.lang.Integer"/>
         <result property="type" column="type_id" select="Type.get"/>
         <result property="userExt" column="user_id" select="UserExt.get"/>
+        <result property="stockAmount" column="stock_amount" nullValue="0"/>
+        <result property="stockWarnAmount" column="stock_warn_amount" nullValue="0"/>
     </resultMap>
 
     <select id="getAll" resultMap="goodsMap" parameterClass="com.bit.model.Goods">
-        select t.* from t_goods t
+        select t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+          from t_goods t left join t_stock x on t.goods_id = x.goods_id
         where 1 = 1
         <isNotEmpty property="goodsName" prepend="and">
             goods_name like '%$goodsName$%'
@@ -60,7 +63,9 @@
     </select>
 
     <select id="get" resultMap="goodsMap" parameterClass="java.lang.Integer">
-        SELECT t.* FROM t_goods t WHERE t.goods_id = #value#
+        SELECT t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+        FROM t_goods t left join t_stock x on t.goods_id = x.goods_id
+        WHERE t.goods_id = #value#
     </select>
 
     <insert id="add" parameterClass="com.bit.model.Goods">
@@ -115,7 +120,8 @@
     </delete>
     
     <select id="getSameGoods" resultMap="goodsMap" parameterClass="com.bit.model.Goods">
-        select t.* from t_goods t
+        select t.*,x.amount as stock_amount,x.warn_amount as stock_warn_amount
+        from t_goods t left join t_stock x on t.goods_id = x.goods_id
         where 1 = 1
         and t.goods_name = #goodsName#
         and t.supplier_id = #supplierId#
