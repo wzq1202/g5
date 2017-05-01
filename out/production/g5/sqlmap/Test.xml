@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Test">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto"/>
+	
+	<insert id="save1" parameterClass="java.lang.String">
+		insert into test_1 (value) values (#value#)
+	</insert>
+	<insert id="save2" parameterClass="java.lang.String">
+		insert into test_2 (value) values (#value#)
+	</insert>
+</sqlMap>

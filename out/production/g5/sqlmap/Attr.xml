@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Attr">
+    <resultMap id="attrMap" class="com.bit.model.Attr">
+        <result property="attrId" column="attr_id" javaType="java.lang.Integer"/>
+        <result property="attrName" column="attr_name" javaType="java.lang.String"/>
+        <result property="attrValue" column="attr_value" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="attrMap" parameterClass="com.bit.model.Attr">
+        select t.* from t_attr t
+        where 1 = 1
+        <isNotEmpty property="attrName" prepend="and">
+            attr_name like '%$attrName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Attr">
+        select count(t.attr_id) from t_attr t
+        where 1 = 1
+        <isNotEmpty property="attrName" prepend="and">
+            attr_name like '%$attrName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="attrMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_attr t WHERE t.attr_id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Attr">
+		INSERT
+			t_attr (attr_name,attr_value)
+		VALUES
+			(#attrName#,#attrValue#)
+
+        <selectKey resultClass="int" keyProperty="attrId">
+            SELECT max(attr_id) FROM t_attr
+        </selectKey>
+	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Attr">
+        UPDATE t_attr
+        <dynamic prepend="set">
+            <isNotEmpty property="attrName" prepend=",">
+                attr_name = #attrName#
+            </isNotEmpty>
+            <isNotEmpty property="attrValue" prepend=",">
+                attr_value = #attrValue#
+            </isNotEmpty>
+        </dynamic>
+        WHERE attr_id = #attrId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_attr WHERE attr_id = #value#
+    </delete>
+</sqlMap>

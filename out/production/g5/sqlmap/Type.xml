@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 参数管理手工映射SQL语句 -->
+<sqlMap namespace="Type">
+    <resultMap id="typeMap" class="com.bit.model.Type">
+        <result property="typeId" column="type_id" javaType="java.lang.Integer"/>
+        <result property="typeName" column="type_name" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="typeMap" parameterClass="com.bit.model.Type">
+        select t.* from t_type t
+        where 1 = 1
+        <isNotEmpty property="typeName" prepend="and">
+            type_name like '%$typeName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllCount" resultClass="java.lang.Integer" parameterClass="com.bit.model.Type">
+        select count(t.type_id) from t_type t
+        where 1 = 1
+        <isNotEmpty property="typeName" prepend="and">
+            type_name like '%$typeName$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getList" resultMap="typeMap">
+        select t.* from t_type t
+    </select>
+
+    <select id="get" resultMap="typeMap" parameterClass="java.lang.Integer">
+        SELECT t.* FROM t_type t WHERE t.type_id = #value#
+    </select>
+
+    <insert id="add" parameterClass="com.bit.model.Type">
+		INSERT
+			t_type (type_name)
+		VALUES
+			(#typeName#)
+
+        <selectKey resultClass="int" keyProperty="typeId">
+            SELECT max(type_id) FROM t_type
+        </selectKey>
+	</insert>
+
+    <update id="edit" parameterClass="com.bit.model.Type">
+        UPDATE t_type
+        <dynamic prepend="set">
+            <isNotEmpty property="typeName" prepend=",">
+                type_name = #typeName#
+            </isNotEmpty>
+        </dynamic>
+        WHERE type_id = #typeId#
+    </update>
+    <delete id="del" parameterClass="java.lang.Integer">
+        DELETE FROM t_type WHERE type_id = #value#
+    </delete>
+</sqlMap>
